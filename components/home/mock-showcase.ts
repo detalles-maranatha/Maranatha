@@ -1,116 +1,121 @@
 /**
- * Mock data for FeaturedShowcase — plug-and-play, no lib/products.ts dependency.
- * Matches the 7 product cards + 1 CTA card from the reference image.
+ * Showcase data — real poster copy + exact image paths.
+ *
+ * Each item maps to an image under /public/images/showcase/ (added by the
+ * owner: detalle-gato.jpg, ramo-rosas.jpg, rosas-liston.jpg,
+ * flores-limpiapipas.jpg, osito-flores.jpg, oso-panda.jpg, unicornio.jpg,
+ * cta-rosas.jpg).
  */
 
-export type ShowcaseProduct = {
+export interface ShowcaseItem {
   id: string;
   title: string;
+  image: string;
   materials: string[];
   phrase: string;
-  decorationIcon: "heart" | "leaf" | "flower";
-};
+}
 
-export type ShowcaseCTA = {
-  id: string;
-  title: string;
-  description: string;
-  hearts: string;
-  imageAlt: string;
-};
-
-export const SHOWCASE_PRODUCTS: ShowcaseProduct[] = [
+export const SHOWCASE_ITEMS: ShowcaseItem[] = [
+  {
+    id: "detalle-gato",
+    title: "Detalle de gato",
+    image: "/images/showcase/detalle-gato.jpg",
+    materials: [
+      "Papel Coreano.",
+      "Cartón corrugado.",
+      "Papel seda.",
+      "Flores eternas de listón.",
+      "Chocolates.",
+      "Peluche de 10 cm.",
+      "Listón día de las madres - Temporal.",
+      "Pepitas adhesivas.",
+      "Cuenta con 5 rosas.",
+    ],
+    phrase: "¡Un detalle tierno y lleno de amor!",
+  },
   {
     id: "ramo-rosas",
-    title: "Ramo de Rosas",
+    title: "Ramo de rosas",
+    image: "/images/showcase/ramo-rosas.jpg",
     materials: [
-      "Rosas de satín premium",
-      "Tallo forrado en cinta",
-      "Moño dorado artesanal",
-      "Tarjeta personalizada",
+      "Papel Coreano.",
+      "Flores eternas de listón.",
+      "Pepitas adhesivas.",
+      "Papel crepe.",
+      "Palos de pincho.",
+      "Tiene 7 rosas y una Dalia.",
     ],
-    phrase: "¡Un detalle clásico que nunca falla!",
-    decorationIcon: "heart",
+    phrase: "Belleza que habla por ti",
+  },
+  {
+    id: "rosas-liston",
+    title: "Rosas de listón",
+    image: "/images/showcase/rosas-liston.jpg",
+    materials: ["Papel Coreano.", "Palos de pincho.", "Cinta.", "Flores individuales."],
+    phrase: "Elegancia en cada detalle",
+  },
+  {
+    id: "flores-limpiapipas",
+    title: "Flores con Limpiapipas",
+    image: "/images/showcase/flores-limpiapipas.jpg",
+    materials: [
+      "Diferentes flores realizadas con limpiapipas de diferentes colores",
+      "Papel Coreano",
+      "Papel seda",
+      "Palos de pincho",
+      "Cinta verde",
+      "Cinta de listón",
+      "Los ramos contienen de 2 a 4 flores.",
+    ],
+    phrase: "Creatividad que florece",
   },
   {
     id: "osito-flores",
     title: "Osito de Flores",
+    image: "/images/showcase/osito-flores.jpg",
     materials: [
-      "Peluche conejito suave",
-      "Flores de listón variadas",
-      "Canasta decorativa",
-      "Lazo de organza",
+      "Cuenta con 24 rosas eternas de listón entre rojo y amarillo.",
+      "Pepitas adhesivas.",
+      "Chocolates.",
+      "Cartón corrugado.",
+      "Papel seda.",
     ],
-    phrase: "¡Ternura que abraza el alma!",
-    decorationIcon: "leaf",
+    phrase: "Un abrazo que dura para siempre!",
   },
   {
-    id: "unicornio-magico",
-    title: "Unicornio Mágico",
+    id: "oso-panda",
+    title: "Oso panda",
+    image: "/images/showcase/oso-panda.jpg",
     materials: [
-      "Peluche unicornio pastel",
-      "Ramo de flores limpiapipas",
-      "Detalles en tonos lila/rosa",
-      "Estrella decorativa",
+      "5 rosas rosadas de listón",
+      "Papel seda",
+      "Chocolates",
+      "Cartón corrugado",
+      "Bolsa transparente decorativa",
+      "Palitos de pincho",
     ],
-    phrase: "¡La magia existe y la regalas!",
-    decorationIcon: "flower",
+    phrase: "Dulzura que conquista",
   },
   {
-    id: "canasta-cafe",
-    title: "Canasta Café Cerquera",
+    id: "unicornio",
+    title: "Unicornio",
+    image: "/images/showcase/unicornio.jpg",
     materials: [
-      "Café de origen Cerquera",
-      "Galletas artesanales",
-      "Taza cerámica incluida",
-      "Tarjeta escrita a mano",
+      "Bolsa transparente decorativa",
+      "Chocolates",
+      "Papel seda",
+      "6 rosas de listón",
+      "Cartón corrugado",
     ],
-    phrase: "¡Para los amantes del buen café!",
-    decorationIcon: "heart",
-  },
-  {
-    id: "bouquet-girasoles",
-    title: "Bouquet Girasoles",
-    materials: [
-      "Girasoles de limpiapipas",
-      "Hojas verdes realistas",
-      "Jarrón de papel kraft",
-      "Lazo de yute natural",
-    ],
-    phrase: "¡Luz y alegría en cada pétalo!",
-    decorationIcon: "leaf",
-  },
-  {
-    id: "canasta-dinosaurio",
-    title: "Canasta Dinosaurio",
-    materials: [
-      "Peluche dinosaurio tierno",
-      "Flores de satín colores",
-      "Base de canasta rústica",
-      "Detalles jurásicos",
-    ],
-    phrase: "¡Un rugido de cariño puro!",
-    decorationIcon: "flower",
-  },
-  {
-    id: "arreglo-oso",
-    title: "Arreglo con Oso",
-    materials: [
-      "Peluche osito clásico",
-      "Rosas de satín crema/rosa",
-      "Caja rígida premium",
-      "Moño de terciopelo",
-    ],
-    phrase: "¡El abrazo que se queda para siempre!",
-    decorationIcon: "heart",
+    phrase: "Magia y ternura en un solo regalo",
   },
 ];
 
-export const SHOWCASE_CTA: ShowcaseCTA = {
+/** CTA card ("Sorprende con amor") content. */
+export const SHOWCASE_CTA = {
   id: "sorprende-amor",
   title: "Sorprende con amor",
-  description:
-    "Cada detalle nace en nuestro taller con manos que cuidan cada pétalo, cada puntada, cada lazo. No vendemos regalos: creamos momentos que se quedan en el corazón.",
-  hearts: "♥ ♡ ♥ ♡ ♥",
-  imageAlt: "Ramo de rosas artesanal en tonos pastel",
+  subtitle: "Cada detalle está hecho para crear momentos inolvidables.",
+  highlight: "¡Elige tu favorito y haz feliz a alguien especial!",
+  image: "/images/showcase/cta-rosas.jpg",
 };
