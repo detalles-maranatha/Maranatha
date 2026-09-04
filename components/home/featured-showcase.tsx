@@ -551,10 +551,23 @@ export default function FeaturedShowcase() {
         innerClassName="relative"
       >
         {/* Section Title */}
-        <header className="mb-10 text-center md:mb-14" data-showcase-title>
-          <h2 className="font-serif text-[#8b5a5a] text-3xl font-medium leading-tight tracking-tight md:text-4xl lg:text-5xl">
-            Detalles que enamoran
-          </h2>
+        <header
+          className="py-10 text-center md:py-12"
+          data-showcase-title
+        >
+          {/* Title flanked by soft paste hearts */}
+          <div className="inline-flex items-center gap-3">
+            <HeartIcon className="h-5 w-5 text-[#dca4a4]" aria-hidden="true" />
+            <h2 className="font-serif text-[#8b5a5a] text-3xl font-medium leading-tight tracking-tight md:text-4xl lg:text-5xl">
+              Detalles que enamoran
+            </h2>
+            <HeartIcon className="h-5 w-5 text-[#dca4a4]" aria-hidden="true" />
+          </div>
+
+          {/* Subtitle */}
+          <p className="mt-2 mb-8 text-center font-sans text-sm font-normal tracking-wide text-[#8b5a5a]/80 md:mb-10 md:text-base">
+            Regalos únicos para cada ocasión
+          </p>
         </header>
 
         {/* Grid: 1 col mobile / 2 tablet / 4 desktop -> 4x2 = 7 + 1 CTA */}
