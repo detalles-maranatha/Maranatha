@@ -213,8 +213,11 @@ function ProductCard({
 }: {
   product: ShowcaseItem;
   firstInGrid: boolean;
-  onOpen: (img: ShowcaseImage) => void;
+  onOpen: (img: { src: string; alt: string; title: string }) => void;
 }) {
+  // Tag every image with the product title so the lightbox can show it.
+  const handleOpen = (img: ShowcaseImage) =>
+    onOpen({ src: img.src, alt: img.alt, title: product.title });
   return (
     <article
       data-cascade
@@ -233,7 +236,7 @@ function ProductCard({
           <ProductImages
             images={product.images}
             firstInGrid={firstInGrid}
-            onOpen={onOpen}
+            onOpen={handleOpen}
           />
         </div>
 
@@ -267,7 +270,7 @@ function Lightbox({
   image,
   onClose,
 }: {
-  image: { src: string; alt: string } | null;
+  image: { src: string; alt: string; title: string } | null;
   onClose: () => void;
 }) {
   // Close with the Escape key.
@@ -287,28 +290,40 @@ function Lightbox({
       role="dialog"
       aria-modal="true"
       aria-label="Vista previa de imagen"
-      className="animate-fadeIn fixed inset-0 z-50 flex items-center justify-center bg-black/80 p-4 backdrop-blur-sm"
+      className="animate-fadeIn fixed inset-0 z-50 flex items-center justify-center bg-black/85 p-4 backdrop-blur-md md:p-8"
       onClick={onClose}
     >
+      {/* Close button */}
       <button
         type="button"
         onClick={onClose}
-        aria-label="Cerrar"
-        className="absolute right-4 top-4 flex h-10 w-10 items-center justify-center rounded-full bg-white/10 text-lg text-white transition-colors hover:bg-white/20"
+        aria-label="Cerrar vista previa"
+        className="absolute right-4 top-4 z-50 flex h-12 w-12 cursor-pointer items-center justify-center rounded-full bg-white/10 text-2xl text-white/80 transition-colors hover:bg-white/20 hover:text-white"
       >
         ✕
       </button>
+
+      {/* Modal card — wide relative width */}
       <div
-        className="relative max-w-3xl cursor-zoom-out"
-        onClick={onClose}
+        className="relative flex w-full max-w-2xl flex-col items-center overflow-hidden rounded-2xl bg-white p-4 shadow-2xl md:max-w-3xl md:p-6 max-h-[85vh]"
+        onClick={(e) => e.stopPropagation()}
       >
-        <Image
-          src={image.src}
-          alt={image.alt}
-          width={1200}
-          height={1200}
-          className="max-h-[85vh] w-auto max-w-full rounded-xl object-contain"
-        />
+        {/* Title above the photo */}
+        <h4 className="mb-3 text-center font-serif text-xl text-[#8b5a5a] md:text-2xl">
+          {image.title}
+        </h4>
+
+        {/* Photo view — fills the available space */}
+        <div className="relative h-[55vh] w-full overflow-hidden rounded-xl bg-pink-50/50 md:h-[65vh]">
+          <Image
+            src={image.src}
+            alt={image.alt}
+            fill
+            className="object-contain"
+            sizes="(max-width: 768px) 90vw, 800px"
+            priority
+          />
+        </div>
       </div>
     </div>
   );
@@ -490,10 +505,11 @@ export default function FeaturedShowcase() {
   const [activeImage, setActiveImage] = useState<{
     src: string;
     alt: string;
+    title: string;
   } | null>(null);
 
-  const openLightbox = (img: ShowcaseImage) =>
-    setActiveImage({ src: img.src, alt: img.alt });
+  const openLightbox = ({ src, alt, title }: ShowcaseImage & { title: string }) =>
+    setActiveImage({ src, alt, title });
 
   useEffect(() => {
     const section = sectionRef.current;
