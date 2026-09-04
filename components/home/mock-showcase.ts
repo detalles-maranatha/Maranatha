@@ -1,16 +1,22 @@
 /**
- * Showcase data — real poster copy + exact image paths.
+ * Showcase data — real poster copy + real image paths (public/images/showcase).
  *
- * Each item maps to an image under /public/images/showcase/ (added by the
- * owner: detalle-gato.jpg, ramo-rosas.jpg, rosas-liston.jpg,
- * flores-limpiapipas.jpg, osito-flores.jpg, oso-panda.jpg, unicornio.jpg,
- * cta-rosas.jpg).
+ * All source images are PNG. Images are server-side data so the component stays
+ * presentational; alts are descriptive Spanish (SEO) for crawlers and AT.
+ * "Flores con Limpiapipas" deliberately carries three images rendered as a
+ * mini-collage.
  */
+
+export interface ShowcaseImage {
+  src: string;
+  alt: string;
+}
 
 export interface ShowcaseItem {
   id: string;
   title: string;
-  image: string;
+  /** One image normally, three for the limpiapipas collage. */
+  images: ShowcaseImage[];
   materials: string[];
   phrase: string;
 }
@@ -19,7 +25,12 @@ export const SHOWCASE_ITEMS: ShowcaseItem[] = [
   {
     id: "detalle-gato",
     title: "Detalle de gato",
-    image: "/images/showcase/detalle-gato.jpg",
+    images: [
+      {
+        src: "/images/showcase/detalle-gato.png",
+        alt: "Detalle de gato con peluche, chocolates y 5 rosas eternas de listón envueltas en papel coreano",
+      },
+    ],
     materials: [
       "Papel Coreano.",
       "Cartón corrugado.",
@@ -36,7 +47,12 @@ export const SHOWCASE_ITEMS: ShowcaseItem[] = [
   {
     id: "ramo-rosas",
     title: "Ramo de rosas",
-    image: "/images/showcase/ramo-rosas.jpg",
+    images: [
+      {
+        src: "/images/showcase/ramo-rosas.png",
+        alt: "Ramo con 7 rosas eternas de listón y una dalia envuelto en papel coreano y crepé",
+      },
+    ],
     materials: [
       "Papel Coreano.",
       "Flores eternas de listón.",
@@ -50,14 +66,32 @@ export const SHOWCASE_ITEMS: ShowcaseItem[] = [
   {
     id: "rosas-liston",
     title: "Rosas de listón",
-    image: "/images/showcase/rosas-liston.jpg",
+    images: [
+      {
+        src: "/images/showcase/rosas-liston.png",
+        alt: "Rosas individuales de listón envueltas en papel coreano con cinta",
+      },
+    ],
     materials: ["Papel Coreano.", "Palos de pincho.", "Cinta.", "Flores individuales."],
     phrase: "Elegancia en cada detalle",
   },
   {
     id: "flores-limpiapipas",
     title: "Flores con Limpiapipas",
-    image: "/images/showcase/flores-limpiapipas.jpg",
+    images: [
+      {
+        src: "/images/showcase/limpiapipas-1.png",
+        alt: "Ramo de flores de limpiapipas de colores con papel coreano y cinta de listón",
+      },
+      {
+        src: "/images/showcase/limpiapipas-2.png",
+        alt: "Detalle de flores de limpiapipas de diferentes colores con papel seda",
+      },
+      {
+        src: "/images/showcase/limpiapipas-3.png",
+        alt: "Variedad de flores de limpiapipas con palos de pincho y cinta verde",
+      },
+    ],
     materials: [
       "Diferentes flores realizadas con limpiapipas de diferentes colores",
       "Papel Coreano",
@@ -72,7 +106,12 @@ export const SHOWCASE_ITEMS: ShowcaseItem[] = [
   {
     id: "osito-flores",
     title: "Osito de Flores",
-    image: "/images/showcase/osito-flores.jpg",
+    images: [
+      {
+        src: "/images/showcase/osito-flores.png",
+        alt: "Osito de flores con 24 rosas eternas de listón rojas y amarillas, chocolates y papel seda",
+      },
+    ],
     materials: [
       "Cuenta con 24 rosas eternas de listón entre rojo y amarillo.",
       "Pepitas adhesivas.",
@@ -85,7 +124,12 @@ export const SHOWCASE_ITEMS: ShowcaseItem[] = [
   {
     id: "oso-panda",
     title: "Oso panda",
-    image: "/images/showcase/oso-panda.jpg",
+    images: [
+      {
+        src: "/images/showcase/oso-panda.png",
+        alt: "Oso panda con 5 rosas rosadas de listón, chocolates y bolsa transparente decorativa",
+      },
+    ],
     materials: [
       "5 rosas rosadas de listón",
       "Papel seda",
@@ -99,7 +143,12 @@ export const SHOWCASE_ITEMS: ShowcaseItem[] = [
   {
     id: "unicornio",
     title: "Unicornio",
-    image: "/images/showcase/unicornio.jpg",
+    images: [
+      {
+        src: "/images/showcase/unicornio.png",
+        alt: "Unicornio con 6 rosas de listón, chocolates y bolsa transparente decorativa",
+      },
+    ],
     materials: [
       "Bolsa transparente decorativa",
       "Chocolates",
@@ -111,11 +160,10 @@ export const SHOWCASE_ITEMS: ShowcaseItem[] = [
   },
 ];
 
-/** CTA card ("Sorprende con amor") content. */
+/** CTA card ("Sorprende con amor") content — no dedicated photo. */
 export const SHOWCASE_CTA = {
   id: "sorprende-amor",
   title: "Sorprende con amor",
   subtitle: "Cada detalle está hecho para crear momentos inolvidables.",
   highlight: "¡Elige tu favorito y haz feliz a alguien especial!",
-  image: "/images/showcase/cta-rosas.jpg",
 };

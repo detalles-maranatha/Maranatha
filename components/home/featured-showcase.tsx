@@ -6,10 +6,12 @@ import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import CascadeReveal from "@/components/cascade-reveal";
 import Section from "@/components/ui/section";
+import DetailDoodle from "@/components/ui/detail-doodle";
 import {
   SHOWCASE_ITEMS,
   SHOWCASE_CTA,
   type ShowcaseItem,
+  type ShowcaseImage,
 } from "@/components/home/mock-showcase";
 
 gsap.registerPlugin(ScrollTrigger);
@@ -70,37 +72,17 @@ function HeartOutlineIcon(props: React.SVGProps<SVGSVGElement>) {
   );
 }
 
-/** Thin leaf — card footer decoration (rose gold). */
-function LeafSprigIcon(props: React.SVGProps<SVGSVGElement>) {
+/** Card footer decoration — a single thin leaf/flower (accent, 60% opacity)
+ *  in the bottom-right corner, out of the text flow. Uses the shared
+ *  stroke-only DetailDoodle so it inherits the detalle icon grammar. */
+function FooterDoodle({ index }: { index: number }) {
+  const variant = index % 2 === 0 ? ("flower" as const) : ("leaf" as const);
   return (
-    <svg {...iconBase} fill="none" stroke="currentColor" strokeWidth={1.2} strokeLinecap="round" strokeLinejoin="round" {...props}>
-      <path d="M12 20V11" />
-      <path d="M12 11c-3 0-5-2-5-5 3 0 5 2 5 5z" />
-      <path d="M12 14c2.6 0 4.5-1.8 4.5-4.2C13.6 9.8 12 11.6 12 14z" />
-    </svg>
-  );
-}
-
-/** Small flower sprig — card footer decoration. */
-function FlowerSprigIcon(props: React.SVGProps<SVGSVGElement>) {
-  return (
-    <svg {...iconBase} fill="none" stroke="currentColor" strokeWidth={1.2} strokeLinecap="round" strokeLinejoin="round" {...props}>
-      <path d="M12 19v-6" />
-      <circle cx="12" cy="7.5" r="2" />
-      <path d="M12 5.5c0-2 1.4-3.5 3.2-3.5C15.2 4 13.8 5.5 12 5.5z" />
-    </svg>
-  );
-}
-
-/* ──────────────────────────────────────────────────────────────
- * Card footer decoration: replaces the old grey dots with thin
- * leaf/flower sprigs in the bottom corner (rose gold / soft pink).
- * ──────────────────────────────────────────────────────────── */
-
-function FooterSprig({ index }: { index: number }) {
-  const Icon = index % 2 === 0 ? LeafSprigIcon : FlowerSprigIcon;
-  return (
-    <Icon className="absolute bottom-2.5 right-3 size-5 text-[#d9a94e]/70" />
+    <DetailDoodle
+      variant={variant}
+      aria-hidden
+      className="pointer-events-none absolute bottom-3 right-3 size-6 text-[var(--theme-accent)] opacity-60"
+    />
   );
 }
 
@@ -108,42 +90,110 @@ function FooterSprig({ index }: { index: number }) {
  * ProductCard
  * ──────────────────────────────────────────────────────────── */
 
-function ProductCard({ product, index }: { product: ShowcaseItem; index: number }) {
+/* Responsive sizes for a single product image inside a 4-col grid card. */
+const PRODUCT_IMG_SIZES =
+  "(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 25vw";
+
+/**
+ * Image block. One image renders as a single portrait tile; when the item
+ * carries more than one image (the limpiapipas collage) it renders as a
+ * 2-col mini-collage: first image spans both columns on top, the two others
+ * sit side by side below. Only the first visible image in the whole grid may
+ * take `priority` (LCP); everything else stays lazy.
+ */
+function ProductImages({
+  images,
+  firstInGrid,
+}: {
+  images: ShowcaseImage[];
+  firstInGrid: boolean;
+}) {
+  if (images.length <= 1) {
+    const img = images[0];
+    return (
+      <div className="relative aspect-[4/5] w-full shrink-0 overflow-hidden rounded-md md:w-[45%] md:self-stretch">
+        <Image
+          src={img.src}
+          alt={img.alt}
+          fill
+          sizes={PRODUCT_IMG_SIZES}
+          className="object-cover"
+          loading={firstInGrid ? "eager" : "lazy"}
+          priority={firstInGrid}
+        />
+      </div>
+    );
+  }
+
+  // Mini-collage (limpiapipas: 3 images).
+  const [top, ...rest] = images;
+  return (
+    <div className="grid w-full shrink-0 grid-cols-2 gap-1.5 md:w-[45%] md:self-stretch">
+      <div className="relative col-span-2 aspect-[16/9] overflow-hidden rounded-md">
+        <Image
+          src={top.src}
+          alt={top.alt}
+          fill
+          sizes={PRODUCT_IMG_SIZES}
+          className="object-cover"
+          loading={firstInGrid ? "eager" : "lazy"}
+          priority={firstInGrid}
+        />
+      </div>
+      {rest.map((img) => (
+        <div
+          key={img.src}
+          className="relative aspect-[3/4] overflow-hidden rounded-md"
+        >
+          <Image
+            src={img.src}
+            alt={img.alt}
+            fill
+            sizes={PRODUCT_IMG_SIZES}
+            className="object-cover"
+          />
+        </div>
+      ))}
+    </div>
+  );
+}
+
+function ProductCard({
+  product,
+  index,
+  firstInGrid,
+}: {
+  product: ShowcaseItem;
+  index: number;
+  firstInGrid: boolean;
+}) {
   return (
     <article
       data-cascade
       className="relative flex h-full flex-col overflow-hidden rounded-lg border border-[#f3e5e5] bg-white/70 shadow-sm transition-all duration-300 hover:border-[#d9a94e]/50 hover:shadow-md md:flex-row md:items-stretch"
       style={{ willChange: "transform, opacity" }}
     >
-      {/* Image — top on mobile, left on tablet/desktop */}
-      <div className="relative aspect-[4/3] w-full shrink-0 overflow-hidden md:aspect-auto md:w-32 md:self-stretch lg:w-36">
-        <Image
-          src={product.image}
-          alt={product.title}
-          fill
-          sizes="(min-width: 1024px) 25vw, (min-width: 640px) 50vw, 100vw"
-          className="object-cover"
-        />
-      </div>
+      {/* Image — full-width on top (mobile), ~45% on the left (md+) */}
+      <ProductImages images={product.images} firstInGrid={firstInGrid} />
 
       {/* Content: title + materials */}
       <div className="flex flex-1 flex-col p-3 md:p-4">
-        <h3 className="mb-2 text-center font-serif text-[#8b5a5a] text-base font-medium leading-snug md:text-lg">
+        <h3 className="mb-2 text-center font-serif text-[#8b5a5a] text-base font-medium leading-snug md:text-left md:text-lg">
           {product.title}
         </h3>
 
-        {/* Materials — small tight list */}
+        {/* Materials — small tight list, long words wrap */}
         <ul className="flex flex-1 flex-col gap-1.5 text-left">
           {product.materials.map((material, idx) => (
             <li
               key={idx}
-              className="flex items-start gap-1.5 font-sans text-xs leading-tight text-[#5a4a4a]"
+              className="flex items-start gap-1.5 font-sans text-xs leading-snug text-[#5a4a4a]"
             >
               <span
                 className="mt-1 h-1 w-1 flex-shrink-0 rounded-full bg-[#d9a94e]/50"
                 aria-hidden="true"
               />
-              <span>{material}</span>
+              <span className="break-words">{material}</span>
             </li>
           ))}
         </ul>
@@ -156,7 +206,7 @@ function ProductCard({ product, index }: { product: ShowcaseItem; index: number 
         </div>
       </div>
 
-      <FooterSprig index={index} />
+      <FooterDoodle index={index} />
     </article>
   );
 }
@@ -169,9 +219,20 @@ function CTACard() {
   return (
     <article
       data-cascade
-      className="relative flex h-full flex-col justify-between overflow-hidden rounded-lg border border-[#f3e5e5] bg-gradient-to-br from-[#fdf2f5] to-[#fce8ec] p-5 md:p-6 transition-colors duration-300"
-      style={{ willChange: "transform, opacity" }}
+      className="relative flex h-full min-h-[240px] flex-col justify-between overflow-hidden rounded-lg border border-[#f3e5e5] p-5 md:p-6 transition-colors duration-300"
+      style={{
+        willChange: "transform, opacity",
+        background:
+          "linear-gradient(135deg, color-mix(in srgb, var(--theme-accent) 18%, var(--theme-bg)), var(--theme-bg))",
+      }}
     >
+      {/* Fine rose/leaf doodle — bottom-right, decorative, out of interaction */}
+      <DetailDoodle
+        variant="flower"
+        aria-hidden
+        className="pointer-events-none absolute bottom-4 right-4 size-14 text-[var(--theme-accent)] opacity-30"
+      />
+
       <div className="flex flex-col items-center text-center">
         <h3 className="font-serif italic text-[#c86d6d] text-2xl font-medium leading-snug md:text-3xl">
           {SHOWCASE_CTA.title}
@@ -182,17 +243,6 @@ function CTACard() {
         <p className="mt-2 font-serif italic text-xs text-[#c86d6d] md:text-sm">
           {SHOWCASE_CTA.highlight}
         </p>
-      </div>
-
-      {/* Rose image — bottom right corner */}
-      <div className="relative mt-4 h-28 w-28 self-end rounded-lg overflow-hidden md:h-32 md:w-32">
-        <Image
-          src={SHOWCASE_CTA.image}
-          alt={SHOWCASE_CTA.title}
-          fill
-          sizes="(min-width: 1024px) 25vw, 50vw"
-          className="object-cover"
-        />
       </div>
     </article>
   );
@@ -310,7 +360,11 @@ export default function FeaturedShowcase() {
           >
             {SHOWCASE_ITEMS.map((product, index) => (
               <div key={product.id} role="listitem">
-                <ProductCard product={product} index={index} />
+                <ProductCard
+                  product={product}
+                  index={index}
+                  firstInGrid={index === 0}
+                />
               </div>
             ))}
             <div role="listitem">
