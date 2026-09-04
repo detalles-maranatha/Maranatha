@@ -218,7 +218,7 @@ function ProductCard({
   return (
     <article
       data-cascade
-      className="relative flex h-full flex-col overflow-hidden rounded-xl border border-[#f3e5e5] bg-white p-4 md:p-5"
+      className="relative flex h-full flex-col overflow-hidden rounded-xl border border-[#f3e5e5] bg-white p-3 sm:p-3.5 md:p-4"
       style={{ willChange: "transform, opacity" }}
     >
       {/* Title — full width, centered, on top */}
@@ -228,8 +228,8 @@ function ProductCard({
 
       {/* Body — image left, list right */}
       <div className="flex flex-1 flex-row items-start gap-4">
-        {/* Image container — ~50% / fixed widths on larger screens */}
-        <div className="flex w-[50%] flex-shrink-0 flex-col gap-1.5 sm:w-[160px] md:w-[170px]">
+        {/* Image container — ~38% / capped width, frees space for the text */}
+        <div className="flex w-[38%] max-w-[110px] flex-shrink-0 flex-col gap-1.5">
           <ProductImages
             images={product.images}
             firstInGrid={firstInGrid}
@@ -237,12 +237,12 @@ function ProductCard({
           />
         </div>
 
-        {/* Materials list — right side, breathing room */}
-        <ul className="flex flex-1 flex-col gap-2 py-1 text-[11px] leading-snug text-gray-600 md:text-xs">
+        {/* Materials list — right side, min-w-0 so it can shrink & wrap */}
+        <ul className="flex min-w-0 flex-1 flex-col gap-2 py-1 text-[10.5px] leading-[1.25] tracking-tight text-gray-700 sm:text-[11px]">
           {product.materials.map((material, i) => (
-            <li key={i} className="flex items-start gap-1.5">
-              <span className="mt-0.5 text-[#dca4a4]">•</span>
-              <span className="break-words">{material}</span>
+            <li key={i} className="flex items-start gap-1">
+              <span className="select-none font-bold text-[#dca4a4]">•</span>
+              <span className="break-normal">{material}</span>
             </li>
           ))}
         </ul>
