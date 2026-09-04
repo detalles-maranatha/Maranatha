@@ -72,27 +72,33 @@ function HeartOutlineIcon(props: React.SVGProps<SVGSVGElement>) {
   );
 }
 
-/** Card footer decoration — a single thin leaf/flower (accent, 60% opacity)
- *  in the bottom-right corner, out of the text flow. Uses the shared
- *  stroke-only DetailDoodle so it inherits the detalle icon grammar. */
-function FooterDoodle({ index }: { index: number }) {
-  const variant = index % 2 === 0 ? ("flower" as const) : ("leaf" as const);
-  return (
-    <DetailDoodle
-      variant={variant}
-      aria-hidden
-      className="pointer-events-none absolute bottom-3 right-3 size-6 text-[var(--theme-accent)] opacity-60"
-    />
-  );
-}
-
 /* ──────────────────────────────────────────────────────────────
  * ProductCard
  * ──────────────────────────────────────────────────────────── */
 
 /* Responsive sizes for a single product image inside a 4-col grid card. */
-const PRODUCT_IMG_SIZES =
-  "(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 25vw";
+const PRODUCT_IMG_SIZES = "150px";
+
+/** Thin leaf sprig — footer decorative accent (bottom-right corner). */
+function MiniLeafIcon(props: React.SVGProps<SVGSVGElement>) {
+  return (
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth={1.2}
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      aria-hidden
+      {...props}
+    >
+      <path d="M12 20V11" />
+      <path d="M12 11c-3 0-5-2-5-5 3 0 5 2 5 5z" />
+      <path d="M12 14c2.6 0 4.5-1.8 4.5-4.2C13.6 9.8 12 11.6 12 14z" />
+    </svg>
+  );
+}
 
 /**
  * Image block. One image renders as a single portrait tile; when the item
@@ -100,6 +106,10 @@ const PRODUCT_IMG_SIZES =
  * 2-col mini-collage: first image spans both columns on top, the two others
  * sit side by side below. Only the first visible image in the whole grid may
  * take `priority` (LCP); everything else stays lazy.
+ *
+ * Fixed aspect ratios (4/5, 4/3, square) guarantee photos keep their
+ * proportion regardless of how tall the card grows from the text — no
+ * stretching/cropping.
  */
 function ProductImages({
   images,
@@ -111,13 +121,13 @@ function ProductImages({
   if (images.length <= 1) {
     const img = images[0];
     return (
-      <div className="relative aspect-[4/5] w-full shrink-0 overflow-hidden rounded-md md:w-[45%] md:self-stretch">
+      <div className="relative w-full overflow-hidden rounded-md bg-pink-50 aspect-[4/5]">
         <Image
           src={img.src}
           alt={img.alt}
           fill
-          sizes={PRODUCT_IMG_SIZES}
           className="object-cover"
+          sizes={PRODUCT_IMG_SIZES}
           loading={firstInGrid ? "eager" : "lazy"}
           priority={firstInGrid}
         />
@@ -125,88 +135,86 @@ function ProductImages({
     );
   }
 
-  // Mini-collage (limpiapipas: 3 images).
-  const [top, ...rest] = images;
+  // Mini-collage (limpiapipas: 3 images) — no odd gaps.
+  const [top, mid, bottom] = images;
   return (
-    <div className="grid w-full shrink-0 grid-cols-2 gap-1.5 md:w-[45%] md:self-stretch">
-      <div className="relative col-span-2 aspect-[16/9] overflow-hidden rounded-md">
+    <div className="grid w-full grid-cols-2 gap-1.5">
+      <div className="relative col-span-2 overflow-hidden rounded-sm bg-pink-50 aspect-[4/3]">
         <Image
           src={top.src}
           alt={top.alt}
           fill
-          sizes={PRODUCT_IMG_SIZES}
           className="object-cover"
+          sizes={PRODUCT_IMG_SIZES}
           loading={firstInGrid ? "eager" : "lazy"}
           priority={firstInGrid}
         />
       </div>
-      {rest.map((img) => (
-        <div
-          key={img.src}
-          className="relative aspect-[3/4] overflow-hidden rounded-md"
-        >
-          <Image
-            src={img.src}
-            alt={img.alt}
-            fill
-            sizes={PRODUCT_IMG_SIZES}
-            className="object-cover"
-          />
-        </div>
-      ))}
+      <div className="relative overflow-hidden rounded-sm bg-pink-50 aspect-square">
+        <Image
+          src={mid.src}
+          alt={mid.alt}
+          fill
+          className="object-cover"
+          sizes="75px"
+        />
+      </div>
+      <div className="relative overflow-hidden rounded-sm bg-pink-50 aspect-square">
+        <Image
+          src={bottom.src}
+          alt={bottom.alt}
+          fill
+          className="object-cover"
+          sizes="75px"
+        />
+      </div>
     </div>
   );
 }
 
 function ProductCard({
   product,
-  index,
   firstInGrid,
 }: {
   product: ShowcaseItem;
-  index: number;
   firstInGrid: boolean;
 }) {
   return (
     <article
       data-cascade
-      className="relative flex h-full flex-col overflow-hidden rounded-lg border border-[#f3e5e5] bg-white/70 shadow-sm transition-all duration-300 hover:border-[#d9a94e]/50 hover:shadow-md md:flex-row md:items-stretch"
+      className="relative flex h-full flex-col overflow-hidden rounded-xl border border-[#f3e5e5] bg-white p-4 md:p-5"
       style={{ willChange: "transform, opacity" }}
     >
-      {/* Image — full-width on top (mobile), ~45% on the left (md+) */}
-      <ProductImages images={product.images} firstInGrid={firstInGrid} />
+      {/* Title — full width, centered, on top */}
+      <h3 className="mb-4 w-full text-center font-serif text-lg text-[#8b5a5a]">
+        {product.title}
+      </h3>
 
-      {/* Content: title + materials */}
-      <div className="flex flex-1 flex-col p-3 md:p-4">
-        <h3 className="mb-2 text-center font-serif text-[#8b5a5a] text-base font-medium leading-snug md:text-left md:text-lg">
-          {product.title}
-        </h3>
+      {/* Body — image left, list right */}
+      <div className="flex flex-1 flex-row items-start gap-4">
+        {/* Image container — fixed width to avoid stretching */}
+        <div className="relative flex w-[45%] max-w-[140px] flex-shrink-0 flex-col gap-1.5">
+          <ProductImages images={product.images} firstInGrid={firstInGrid} />
+        </div>
 
-        {/* Materials — small tight list, long words wrap */}
-        <ul className="flex flex-1 flex-col gap-1.5 text-left">
-          {product.materials.map((material, idx) => (
-            <li
-              key={idx}
-              className="flex items-start gap-1.5 font-sans text-xs leading-snug text-[#5a4a4a]"
-            >
-              <span
-                className="mt-1 h-1 w-1 flex-shrink-0 rounded-full bg-[#d9a94e]/50"
-                aria-hidden="true"
-              />
+        {/* Materials list — right side */}
+        <ul className="flex flex-1 flex-col gap-1.5 text-[11px] leading-snug text-gray-600 md:text-xs">
+          {product.materials.map((material, i) => (
+            <li key={i} className="flex items-start gap-1.5">
+              <span className="mt-0.5 text-[#dca4a4]">•</span>
               <span className="break-words">{material}</span>
             </li>
           ))}
         </ul>
-
-        {/* Phrase — soft capsule */}
-        <div className="mt-3">
-          <p className="inline-block max-w-full rounded-full bg-[#fef2f2] px-3 py-1 text-center font-serif italic text-xs text-[#c86d6d]">
-            {product.phrase}
-          </p>
-        </div>
       </div>
 
-      <FooterDoodle index={index} />
+      {/* Footer — full width, pushed to bottom with mt-auto */}
+      <div className="relative mt-5 flex w-full flex-col items-center justify-center border-t border-[#fef0f0] pt-3 text-center">
+        <span className="px-2 font-serif italic text-[#c86d6d] text-xs md:text-sm">
+          {product.phrase}
+        </span>
+        <MiniLeafIcon className="absolute bottom-0 right-0 h-4 w-4 text-[#dca4a4] opacity-50" />
+      </div>
     </article>
   );
 }
@@ -362,7 +370,6 @@ export default function FeaturedShowcase() {
               <div key={product.id} role="listitem">
                 <ProductCard
                   product={product}
-                  index={index}
                   firstInGrid={index === 0}
                 />
               </div>
