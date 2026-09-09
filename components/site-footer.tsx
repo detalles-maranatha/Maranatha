@@ -1,6 +1,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import { HOURS, ROUTES, SOCIALS } from "@/lib/constants";
+import LegalModals from "@/components/legal-modals.client";
 import {
   BoxCheckIcon,
   InstagramIcon,
@@ -172,6 +173,11 @@ export default function SiteFooter() {
               Domicilios en Bogotá
             </Link>
           )}
+
+          {/* Pilares legales (Condiciones de Threads / Privacidad / Cookies).
+              Los textos abren en un modal con scroll interno; la página queda
+              fija detrás (useScrollLock) y se adapta al modo oscuro. */}
+          <LegalModals />
         </div>
 
         {/* Developer credit (user direction) — short, small, centered at the
