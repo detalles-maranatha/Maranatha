@@ -44,6 +44,17 @@
     0 2px 0 rgba(58, 42, 36, 0.04),
     0 18px 40px -24px rgba(58, 42, 36, 0.28);
 
+  /* ── Aliados modal / coffee session palette ──────────────
+     Tonos chocolate-latte para el modal premium de la sección
+     "Aliados". Se consumen via `var(--mood-aliados-...)`. */
+  --mood-aliados-bg: #F6EFE7;
+  --mood-aliados-surface: #FDF9F3;
+  --mood-aliados-ink: #2B1710;
+  --mood-aliados-muted: rgba(43, 23, 16, 0.6);
+  --mood-aliados-gold: #D9B77A;
+  --mood-aliados-border: rgba(43, 23, 16, 0.12);
+  --mood-aliados-glow: rgba(217, 169, 78, 0.15);
+
   /* Taller ecosystem (workshop world, eco-E2/E5): moods and surface tokens
      used by the /taller page and by the curtain transition destination tints.
      Defaults live here so they resolve before [data-ecosystem="taller"]
