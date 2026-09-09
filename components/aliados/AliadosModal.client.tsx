@@ -53,11 +53,14 @@ export default function AliadosModal() {
   const triggerRef = useRef<HTMLButtonElement>(null);
   const modalRef = useRef<HTMLDivElement>(null);
   const overlayRef = useRef<HTMLDivElement>(null);
+  const backdropRef = useRef<HTMLDivElement>(null);
   const closeBtnRef = useRef<HTMLButtonElement>(null);
   const lastCardRef = useRef<number>(0);
   const largeCloseRef = useRef<HTMLButtonElement>(null);
   const largeImageWrapRef = useRef<HTMLDivElement>(null);
   const reducedMotionRef = useRef(false);
+  // Guard para no robar el foco en la apertura inicial de la vitrina.
+  const largeWasOpenRef = useRef(false);
 
   const getReducedMotion = useCallback(() => {
     return window.matchMedia("(prefers-reduced-motion: reduce)").matches;
@@ -77,10 +80,17 @@ export default function AliadosModal() {
     const reduce = reducedMotionRef.current;
 
     const finish = () => {
+      if (fallbackTimer !== undefined) window.clearTimeout(fallbackTimer);
       setSelected(null);
       setIsOpen(false);
       triggerRef.current?.focus();
     };
+    // Seguro de cierre: si el compositor/headless retrasa los tweens de GSAP,
+    // forzamos finish() igualmente (el flujo normal lo limpia antes).
+    let fallbackTimer: number | undefined;
+    if (overlay && modal) {
+      fallbackTimer = window.setTimeout(finish, 900);
+    }
 
     if (!overlay || !modal) {
       finish();
@@ -126,13 +136,6 @@ export default function AliadosModal() {
   // Volver de la vista grande a la vitrina y devolver foco a la tarjeta.
   const exitLarge = useCallback(() => {
     setSelected(null);
-    const overlay = overlayRef.current;
-    if (!overlay) return;
-    requestAnimationFrame(() => {
-      overlay
-        .querySelector<HTMLElement>(`[data-large-index="${lastCardRef.current}"]`)
-        ?.focus();
-    });
   }, []);
 
   const goPrevLarge = useCallback(() => {
@@ -223,6 +226,21 @@ export default function AliadosModal() {
     return () => clearTimeout(timer);
   }, [selected]);
 
+  // Devolver foco a la tarjeta clickeada al volver de la vista grande.
+  // useLayoutEffect: corre justo después del commit del DOM (selected null),
+  // sin la carrera del requestAnimationFrame con el render de React.
+  useLayoutEffect(() => {
+    if (selected !== null) {
+      largeWasOpenRef.current = true;
+      return;
+    }
+    if (!largeWasOpenRef.current) return;
+    largeWasOpenRef.current = false;
+    overlayRef.current
+      ?.querySelector<HTMLElement>(`[data-large-index="${lastCardRef.current}"]`)
+      ?.focus();
+  }, [selected]);
+
   // ESC y focus trap.
   useEffect(() => {
     if (!isOpen) return;
@@ -305,21 +323,24 @@ export default function AliadosModal() {
             aria-label={selected === null ? undefined : "Imagen ampliada"}
             aria-labelledby={selected === null ? "aliados-modal-title" : undefined}
             aria-describedby={selected === null ? "aliados-modal-desc" : undefined}
-            className="fixed inset-0 z-[9999] flex min-h-[100dvh] items-center justify-center p-3 md:p-8"
+            className="fixed inset-0 z-[9999] flex overflow-y-auto p-3 sm:p-6 [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden"
             onClick={(e) => {
-              if (e.target === overlayRef.current) closeModal();
+              const t = e.target as HTMLElement;
+              if (t === overlayRef.current || t === backdropRef.current) closeModal();
             }}
           >
-          {/* Backdrop */}
+          {/* Backdrop fijo al viewport: no scrollea junto al overlay */}
           <div
+            ref={backdropRef}
             aria-hidden="true"
-            className="absolute inset-0 bg-[var(--color-mar-brown,#2B1710)]/60 backdrop-blur-md"
+            className="fixed inset-0 bg-[var(--color-mar-brown,#2B1710)]/60 backdrop-blur-md"
           />
 
-          {/* Panel vitrina glassmorphism */}
+          {/* Panel vitrina glassmorphism: h-auto muestra TODO el contenido; si no
+              cabe en pantallas pequeñas, el OVERLAY scrollea (scrollbar oculto). */}
           <div
             ref={modalRef}
-            className="relative z-[1] flex max-h-[85dvh] w-full max-w-4xl flex-col overflow-hidden rounded-3xl border border-white/50 bg-[color-mix(in_srgb,var(--mood-aliados-bg,#F6EFE7)_58%,transparent)] shadow-[0_30px_90px_-30px_rgba(43,23,16,0.55)] backdrop-blur-2xl"
+            className="relative z-[1] m-auto flex w-full max-w-[980px] flex-col overflow-hidden rounded-3xl border border-white/50 bg-[color-mix(in_srgb,var(--mood-aliados-bg,#F6EFE7)_58%,transparent)] shadow-[0_30px_90px_-30px_rgba(43,23,16,0.55)] backdrop-blur-2xl"
             // Scoped glass tokens: la vitrina queda latte, no del tema activo.
             style={
               {
@@ -348,23 +369,22 @@ export default function AliadosModal() {
               </button>
             )}
 
-            {/* Contenido scrolleable (vitrina + beneficios + CTA): la card
-                queda en max-h-[85dvh] overflow-hidden; este área scrollea
-                internamente si el contenido excede el alto disponible. */}
+            {/* Vitrina + beneficios + CTA en flujo: la card crece (h-auto) y el
+                OVERLAY scrollea con scrollbar oculto si el contenido no cabe. */}
             {selected === null && (
-              <div className="flex-1 overflow-y-auto overscroll-contain">
+              <div>
                 {/* Header */}
                 {selected === null && (
-                  <div data-rise className="relative px-6 pb-2 pt-12 text-center md:px-10 md:pt-14">
+                  <div data-rise className="relative px-4 pb-2 pt-10 text-center sm:px-6 sm:pt-12">
                 <h3
                   id="aliados-modal-title"
-                  className="font-display text-2xl leading-tight text-[var(--mood-aliados-ink,#2B1710)] md:text-4xl"
+                  className="font-display text-2xl leading-tight text-[var(--mood-aliados-ink,#2B1710)] sm:text-4xl"
                 >
                   Nuestras Marcas de Café
                 </h3>
                 <p
                   id="aliados-modal-desc"
-                  className="mt-3 text-sm text-[var(--mood-aliados-muted,rgba(43,23,16,0.6))] md:text-base"
+                  className="mt-2 text-sm leading-relaxed text-[var(--mood-aliados-muted,rgba(43,23,16,0.6))] sm:text-base"
                 >
                   Construimos cada detalle junto a aliados que comparten nuestro
                   cuidado por lo hecho a mano y por el planeta.
@@ -374,7 +394,7 @@ export default function AliadosModal() {
 
             {/* Vitrina glass: todas las imágenes visibles, sin scroll lateral */}
             {selected === null && (
-              <div className="relative grid grid-cols-2 gap-2.5 px-6 pt-6 sm:gap-3 md:grid-cols-4 md:px-8">
+              <div className="relative grid grid-cols-2 gap-2 px-4 pt-4 sm:gap-2.5 sm:px-6 md:grid-cols-4">
                 {VITRINE_ITEMS.map((item, index) => (
                   <figure
                     key={item.src}
@@ -428,15 +448,15 @@ export default function AliadosModal() {
 
             {/* Franja de beneficios */}
             {selected === null && (
-              <div className="relative grid gap-4 px-6 pb-2 pt-8 sm:grid-cols-3 md:px-8">
+              <div className="relative grid gap-3 px-4 pb-1 pt-5 sm:grid-cols-3 sm:px-6">
                 {BENEFITS.map((benefit) => (
                   <div
                     key={benefit.title}
                     data-rise
-                    className="flex flex-col items-center gap-2.5 rounded-2xl border border-white/40 bg-white/15 px-3 py-5 text-center backdrop-blur-md"
+                    className="flex flex-col items-center gap-2 rounded-2xl border border-white/40 bg-white/15 px-2.5 py-4 text-center backdrop-blur-md"
                   >
-                    <span className="inline-flex size-13 items-center justify-center rounded-full border border-white/50 bg-[var(--mood-aliados-gold,#D9B77A)]/20 text-[var(--mood-aliados-gold,#D9B77A)]">
-                      <benefit.icon className="size-6" />
+                    <span className="inline-flex size-11 items-center justify-center rounded-full border border-white/50 bg-[var(--mood-aliados-gold,#D9B77A)]/20 text-[var(--mood-aliados-gold,#D9B77A)]">
+                      <benefit.icon className="size-5" />
                     </span>
                     <h4 className="font-display text-sm font-semibold text-[var(--mood-aliados-ink,#2B1710)] md:text-base">
                       {benefit.title}
@@ -451,7 +471,7 @@ export default function AliadosModal() {
 
             {/* CTA */}
             {selected === null && (
-              <div data-rise className="relative px-6 pb-8 pt-5 text-center md:pb-9">
+              <div data-rise className="relative px-4 pb-6 pt-4 text-center sm:px-6 sm:pb-7">
                 <Link
                   href="/catalogo"
                   onClick={closeModal}
@@ -478,7 +498,7 @@ export default function AliadosModal() {
 
             {/* Vista grande: imagen a pantalla completa dentro del panel */}
             {selected !== null && (
-              <div className="relative z-[6] flex min-h-0 w-full flex-1 flex-col overflow-hidden">
+              <div className="relative z-[6] flex w-full flex-col">
                 {/* X de la vista grande */}
                 <button
                   ref={largeCloseRef}
@@ -530,12 +550,11 @@ export default function AliadosModal() {
                   </svg>
                 </button>
 
-                {/* Contenido scrolleable: la card queda a max-h-[85dvh]; cuando el header +
-                    imagen + dots exceden el alto, este área scrollea internamente
-                    (X y flechas quedan fijas sobre el contenido). */}
-                <div className="min-h-0 flex-1 overflow-y-auto overscroll-contain">
+                {/* Header + imagen + dots en flujo: si no caben, el OVERLAY scrollea
+                    con scrollbar oculto (X y flechas quedan fijas). */}
+                <div>
                 {/* Header: título + contador */}
-                <div className="px-6 pb-3 pt-12 text-center md:pt-14">
+                <div className="px-4 pb-2 pt-10 text-center sm:px-6 sm:pt-12">
                   <p className="font-display text-lg text-[var(--mood-aliados-ink,#2B1710)] md:text-xl">
                     {VITRINE_ITEMS[selected].caption}
                   </p>
@@ -548,7 +567,7 @@ export default function AliadosModal() {
                     nunca colapsa a height:0 aunque el panel/flex reacomoden. */}
                 <div
                   ref={largeImageWrapRef}
-                  className="relative mx-auto h-[60dvh] min-h-[280px] max-h-[620px] w-full max-w-[52rem] overflow-hidden rounded-2xl border border-white/40 bg-white/10 shadow-[0_20px_60px_-20px_rgba(43,23,16,0.5)] backdrop-blur-sm"
+                  className="relative mx-auto h-[48dvh] min-h-[240px] max-h-[620px] w-full max-w-[52rem] overflow-hidden rounded-2xl border border-white/40 bg-white/10 shadow-[0_20px_60px_-20px_rgba(43,23,16,0.5)] backdrop-blur-sm sm:h-[60dvh]"
                 >
                   {imgFailed ? (
                     <div
@@ -572,7 +591,7 @@ export default function AliadosModal() {
                     />
                   )}
                 </div>
-                <div className="flex justify-center gap-2 pb-6">
+                <div className="flex justify-center gap-2 pb-4 pt-1">
                   {VITRINE_ITEMS.map((item, index) => (
                     <button
                       key={item.src}
@@ -580,7 +599,7 @@ export default function AliadosModal() {
                       aria-label={`Ir a imagen ${index + 1}`}
                       aria-current={selected === index ? "true" : undefined}
                       onClick={() => openLarge(index)}
-                      className={`size-2 rounded-full transition-colors duration-300 ${
+                      className={`size-1.5 rounded-full transition-colors duration-300 ${
                         selected === index
                           ? "bg-[var(--mood-aliados-gold,#D9B77A)]"
                           : "bg-[var(--mood-aliados-ink,#2B1710)]/25 hover:bg-[var(--mood-aliados-ink,#2B1710)]/45"
