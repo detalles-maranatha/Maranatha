@@ -46,6 +46,9 @@ const BENEFITS = [
 export default function AliadosModal() {
   const [isOpen, setIsOpen] = useState(false);
   const [selected, setSelected] = useState<number | null>(null);
+  const [imgFailed, setImgFailed] = useState(false);
+  // El fallback visual se resetea en cada handler que cambia de imagen o
+  // reabre el modal (openModal / openLarge / prev / next) — sin effects.
   useScrollLock(isOpen);
   const triggerRef = useRef<HTMLButtonElement>(null);
   const modalRef = useRef<HTMLDivElement>(null);
@@ -63,6 +66,7 @@ export default function AliadosModal() {
   const openModal = useCallback(() => {
     if (isOpen) return;
     reducedMotionRef.current = getReducedMotion();
+    setImgFailed(false);
     setIsOpen(true);
   }, [isOpen, getReducedMotion]);
 
@@ -115,6 +119,7 @@ export default function AliadosModal() {
   // Vista grande: abrir una imagen de la vitrina.
   const openLarge = useCallback((index: number) => {
     lastCardRef.current = index;
+    setImgFailed(false);
     setSelected(index);
   }, []);
 
@@ -131,12 +136,14 @@ export default function AliadosModal() {
   }, []);
 
   const goPrevLarge = useCallback(() => {
+    setImgFailed(false);
     setSelected((s) =>
       s === null ? s : (s - 1 + VITRINE_ITEMS.length) % VITRINE_ITEMS.length
     );
   }, []);
 
   const goNextLarge = useCallback(() => {
+    setImgFailed(false);
     setSelected((s) => (s === null ? s : (s + 1) % VITRINE_ITEMS.length));
   }, []);
 
@@ -523,33 +530,47 @@ export default function AliadosModal() {
                   </svg>
                 </button>
 
-                {/* Contenido scrolleable: la card queda a max-h-[85dvh]; cuando la
-                    imagen + caption + dots exceden el alto, este área scrollea
-                    internamente (X y flechas quedan fijas sobre el contenido). */}
+                {/* Contenido scrolleable: la card queda a max-h-[85dvh]; cuando el header +
+                    imagen + dots exceden el alto, este área scrollea internamente
+                    (X y flechas quedan fijas sobre el contenido). */}
                 <div className="min-h-0 flex-1 overflow-y-auto overscroll-contain">
-                {/* Imagen grande */}
-                <div
-                  ref={largeImageWrapRef}
-                  className="relative mx-auto mt-14 h-[58dvh] min-h-[240px] w-[min(100%-3rem,52rem)] overflow-hidden rounded-2xl border border-white/40 bg-white/10 shadow-[0_20px_60px_-20px_rgba(43,23,16,0.5)] backdrop-blur-sm md:h-[64dvh]"
-                >
-                  <Image
-                    src={VITRINE_ITEMS[selected].src}
-                    alt={VITRINE_ITEMS[selected].alt}
-                    fill
-                    priority
-                    sizes="(min-width:768px) 70vw, 92vw"
-                    className="object-contain"
-                  />
-                </div>
-
-                {/* Caption + paginación + dots */}
-                <div className="px-6 pb-3 pt-4 text-center">
+                {/* Header: título + contador */}
+                <div className="px-6 pb-3 pt-12 text-center md:pt-14">
                   <p className="font-display text-lg text-[var(--mood-aliados-ink,#2B1710)] md:text-xl">
                     {VITRINE_ITEMS[selected].caption}
                   </p>
                   <p className="mt-1 font-sans text-xs tracking-wide text-[var(--mood-aliados-muted,rgba(43,23,16,0.6))]">
                     {selected + 1} / {VITRINE_ITEMS.length}
                   </p>
+                </div>
+
+                {/* Área de imagen: wrapper con ALTURA EXPLÍCITA — el <Image fill>
+                    nunca colapsa a height:0 aunque el panel/flex reacomoden. */}
+                <div
+                  ref={largeImageWrapRef}
+                  className="relative mx-auto h-[60dvh] min-h-[280px] max-h-[620px] w-full max-w-[52rem] overflow-hidden rounded-2xl border border-white/40 bg-white/10 shadow-[0_20px_60px_-20px_rgba(43,23,16,0.5)] backdrop-blur-sm"
+                >
+                  {imgFailed ? (
+                    <div
+                      role="img"
+                      aria-label="No se pudo cargar la imagen"
+                      className="flex h-full w-full flex-col items-center justify-center gap-2 p-6 text-center"
+                    >
+                      <span className="font-display text-base text-[var(--mood-aliados-ink,#2B1710)]/70">
+                        No se pudo cargar la imagen
+                      </span>
+                    </div>
+                  ) : (
+                    <Image
+                      src={VITRINE_ITEMS[selected].src}
+                      alt={VITRINE_ITEMS[selected].alt}
+                      fill
+                      priority
+                      sizes="(max-width: 768px) 100vw, 900px"
+                      className="object-contain"
+                      onError={() => setImgFailed(true)}
+                    />
+                  )}
                 </div>
                 <div className="flex justify-center gap-2 pb-6">
                   {VITRINE_ITEMS.map((item, index) => (
