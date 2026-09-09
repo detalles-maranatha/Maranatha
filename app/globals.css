@@ -119,7 +119,19 @@
   --font-stout: var(--font-stout);
 }
 
+/* Full-bleed page: no external frame/padding around the viewport. The root
+   canvas is theme-backed so the dynamic theming never exposes a foreign
+   background at the edges (the "marco"). Preflight already zeroes margins,
+   but the explicit reset also guards against future CSS resets. */
+html {
+  margin: 0;
+  padding: 0;
+  background-color: var(--theme-bg);
+}
+
 body {
+  margin: 0;
+  padding: 0;
   background-color: var(--theme-bg);
   color: var(--color-mar-brown);
   font-family: var(--font-sans);

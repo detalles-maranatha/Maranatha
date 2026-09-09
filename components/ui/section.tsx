@@ -65,12 +65,19 @@ export default function Section({
    * reference.
    */
   const isHeroMood = mood === "hero" || mood === "taller-hero";
-  const sheetClass = !isHeroMood && sheet ? "sheet-parchment my-4 md:my-8" : "";
+  // La hoja DEBE flotar con respiro lateral: con `w-full max-w-6xl` toca los
+  // bordes del viewport en <=~1330px y las muescas se leen como "marco".
+  // Ancho min(72rem, 100% - respiro) + mx-auto: centrada y SIN overflow en
+  // cualquier viewport (w-full + márgenes fijos desbordaría por la derecha).
+  const sheetClass =
+    !isHeroMood && sheet
+      ? "sheet-parchment mx-auto my-4 w-[min(72rem,calc(100%-2rem))] sm:w-[min(72rem,calc(100%-3rem))] md:my-8"
+      : "";
 
   return (
     <section id={id} style={style} className={className}>
       <div
-        className={`${sheetClass ? sheetClass + " " : ""}mx-auto w-full max-w-6xl px-6 py-16 md:px-10 md:py-20 ${innerClassName}`}
+        className={`${sheetClass ? sheetClass + " " : "mx-auto w-full max-w-6xl "}px-6 py-16 md:px-10 md:py-20 ${innerClassName}`}
       >
         {children}
       </div>
