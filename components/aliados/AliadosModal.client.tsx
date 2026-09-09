@@ -523,10 +523,14 @@ export default function AliadosModal() {
                   </svg>
                 </button>
 
+                {/* Contenido scrolleable: la card queda a max-h-[85dvh]; cuando la
+                    imagen + caption + dots exceden el alto, este área scrollea
+                    internamente (X y flechas quedan fijas sobre el contenido). */}
+                <div className="min-h-0 flex-1 overflow-y-auto overscroll-contain">
                 {/* Imagen grande */}
                 <div
                   ref={largeImageWrapRef}
-                  className="relative mx-auto mt-14 w-[min(100%-3rem,52rem)] flex-1 overflow-hidden rounded-2xl border border-white/40 bg-white/10 shadow-[0_20px_60px_-20px_rgba(43,23,16,0.5)] backdrop-blur-sm"
+                  className="relative mx-auto mt-14 h-[58dvh] min-h-[240px] w-[min(100%-3rem,52rem)] overflow-hidden rounded-2xl border border-white/40 bg-white/10 shadow-[0_20px_60px_-20px_rgba(43,23,16,0.5)] backdrop-blur-sm md:h-[64dvh]"
                 >
                   <Image
                     src={VITRINE_ITEMS[selected].src}
@@ -562,6 +566,7 @@ export default function AliadosModal() {
                       }`}
                     />
                   ))}
+                </div>
                 </div>
               </div>
             )}
