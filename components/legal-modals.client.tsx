@@ -7,6 +7,7 @@ import {
   useRef,
   useState,
 } from "react";
+import { createPortal } from "react-dom";
 import gsap from "gsap";
 import { CloseIcon } from "@/components/ui/icons";
 import { useScrollLock } from "@/hooks/use-scroll-lock";
@@ -282,19 +283,21 @@ export default function LegalModals() {
         ))}
       </ul>
 
-      {/* Modal legal */}
-      {activeDoc && (
-        <div
-          ref={overlayRef}
-          role="dialog"
-          aria-modal="true"
-          aria-labelledby="legal-modal-title"
-          aria-describedby="legal-modal-desc"
-          className="fixed inset-0 z-[90] flex items-center justify-center p-3 md:p-8"
-          onClick={(e) => {
-            if (e.target === overlayRef.current) close();
-          }}
-        >
+      {/* Modal legal — Portal a document.body: mismo motivo que el modal de
+          aliados, el overlay fixed SIEMPRE cubre la pantalla completa. */}
+      {activeDoc &&
+        createPortal(
+          <div
+            ref={overlayRef}
+            role="dialog"
+            aria-modal="true"
+            aria-labelledby="legal-modal-title"
+            aria-describedby="legal-modal-desc"
+            className="fixed inset-0 z-[9999] flex min-h-[100dvh] items-center justify-center p-3 md:p-8"
+            onClick={(e) => {
+              if (e.target === overlayRef.current) close();
+            }}
+          >
           {/* Backdrop */}
           <div
             aria-hidden="true"
@@ -304,7 +307,7 @@ export default function LegalModals() {
           {/* Panel — tokens de tema: se adapta a modo oscuro */}
           <div
             ref={panelRef}
-            className="relative z-[1] flex max-h-[85vh] w-full max-w-2xl flex-col overflow-hidden rounded-3xl border border-[var(--theme-accent)]/25 bg-[var(--theme-bg)] shadow-[0_30px_90px_-30px_rgba(0,0,0,0.55)]"
+            className="relative z-[1] flex max-h-[85dvh] w-full max-w-2xl flex-col overflow-hidden rounded-3xl border border-[var(--theme-accent)]/25 bg-[var(--theme-bg)] shadow-[0_30px_90px_-30px_rgba(0,0,0,0.55)]"
           >
             {/* Resplandor superior (decorativo) */}
             <div
@@ -360,8 +363,9 @@ export default function LegalModals() {
               </p>
             </div>
           </div>
-        </div>
-      )}
+          </div>,
+          document.body
+        )}
     </>
   );
 }

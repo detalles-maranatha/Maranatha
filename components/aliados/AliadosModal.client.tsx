@@ -8,6 +8,7 @@ import {
   useState,
   type CSSProperties,
 } from "react";
+import { createPortal } from "react-dom";
 import Image from "next/image";
 import Link from "next/link";
 import gsap from "gsap";
@@ -285,20 +286,23 @@ export default function AliadosModal() {
         </svg>
       </button>
 
-      {/* Modal */}
-      {isOpen && (
-        <div
-          ref={overlayRef}
-          role="dialog"
-          aria-modal="true"
-          aria-label={selected === null ? undefined : "Imagen ampliada"}
-          aria-labelledby={selected === null ? "aliados-modal-title" : undefined}
-          aria-describedby={selected === null ? "aliados-modal-desc" : undefined}
-          className="fixed inset-0 z-[80] flex items-center justify-center p-3 md:p-8"
-          onClick={(e) => {
-            if (e.target === overlayRef.current) closeModal();
-          }}
-        >
+      {/* Modal — Portal a document.body: escapa del ancestro con transform
+          (ParallaxFloat) que convertiría el overlay `fixed` en relativo al
+          wrapper del CTA y dejaría "pedazos" de la página visibles abajo. */}
+      {isOpen &&
+        createPortal(
+          <div
+            ref={overlayRef}
+            role="dialog"
+            aria-modal="true"
+            aria-label={selected === null ? undefined : "Imagen ampliada"}
+            aria-labelledby={selected === null ? "aliados-modal-title" : undefined}
+            aria-describedby={selected === null ? "aliados-modal-desc" : undefined}
+            className="fixed inset-0 z-[9999] flex min-h-[100dvh] items-center justify-center p-3 md:p-8"
+            onClick={(e) => {
+              if (e.target === overlayRef.current) closeModal();
+            }}
+          >
           {/* Backdrop */}
           <div
             aria-hidden="true"
@@ -308,7 +312,7 @@ export default function AliadosModal() {
           {/* Panel vitrina glassmorphism */}
           <div
             ref={modalRef}
-            className="relative z-[1] w-full max-w-4xl overflow-hidden rounded-3xl border border-white/50 bg-[color-mix(in_srgb,var(--mood-aliados-bg,#F6EFE7)_58%,transparent)] shadow-[0_30px_90px_-30px_rgba(43,23,16,0.55)] backdrop-blur-2xl"
+            className="relative z-[1] flex max-h-[85dvh] w-full max-w-4xl flex-col overflow-hidden rounded-3xl border border-white/50 bg-[color-mix(in_srgb,var(--mood-aliados-bg,#F6EFE7)_58%,transparent)] shadow-[0_30px_90px_-30px_rgba(43,23,16,0.55)] backdrop-blur-2xl"
             // Scoped glass tokens: la vitrina queda latte, no del tema activo.
             style={
               {
@@ -337,9 +341,14 @@ export default function AliadosModal() {
               </button>
             )}
 
-            {/* Header */}
+            {/* Contenido scrolleable (vitrina + beneficios + CTA): la card
+                queda en max-h-[85dvh] overflow-hidden; este área scrollea
+                internamente si el contenido excede el alto disponible. */}
             {selected === null && (
-              <div data-rise className="relative px-6 pb-2 pt-12 text-center md:px-10 md:pt-14">
+              <div className="flex-1 overflow-y-auto overscroll-contain">
+                {/* Header */}
+                {selected === null && (
+                  <div data-rise className="relative px-6 pb-2 pt-12 text-center md:px-10 md:pt-14">
                 <h3
                   id="aliados-modal-title"
                   className="font-display text-2xl leading-tight text-[var(--mood-aliados-ink,#2B1710)] md:text-4xl"
@@ -457,10 +466,12 @@ export default function AliadosModal() {
                 </Link>
               </div>
             )}
+              </div>
+            )}
 
             {/* Vista grande: imagen a pantalla completa dentro del panel */}
             {selected !== null && (
-              <div className="relative z-[6] flex min-h-[68vh] w-full flex-col md:min-h-[74vh]">
+              <div className="relative z-[6] flex min-h-0 w-full flex-1 flex-col overflow-hidden">
                 {/* X de la vista grande */}
                 <button
                   ref={largeCloseRef}
@@ -555,8 +566,9 @@ export default function AliadosModal() {
               </div>
             )}
           </div>
-        </div>
-      )}
+          </div>,
+          document.body
+        )}
     </>
   );
 }
