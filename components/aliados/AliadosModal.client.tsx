@@ -13,6 +13,7 @@ import Link from "next/link";
 import gsap from "gsap";
 import { CloseIcon } from "@/components/ui/icons";
 import { OriginIcon, QualityIcon, CoffeeIcon } from "./AliadosIcons";
+import { useScrollLock } from "@/hooks/use-scroll-lock";
 
 /** Vitrina: las 4 imágenes del café, todas visibles (sin scroll lateral). */
 type VitrineItem = {
@@ -44,6 +45,7 @@ const BENEFITS = [
 export default function AliadosModal() {
   const [isOpen, setIsOpen] = useState(false);
   const [selected, setSelected] = useState<number | null>(null);
+  useScrollLock(isOpen);
   const triggerRef = useRef<HTMLButtonElement>(null);
   const modalRef = useRef<HTMLDivElement>(null);
   const overlayRef = useRef<HTMLDivElement>(null);
@@ -51,35 +53,17 @@ export default function AliadosModal() {
   const lastCardRef = useRef<number>(0);
   const largeCloseRef = useRef<HTMLButtonElement>(null);
   const largeImageWrapRef = useRef<HTMLDivElement>(null);
-  const scrollLockRef = useRef<{ html: string; body: string } | null>(null);
   const reducedMotionRef = useRef(false);
 
   const getReducedMotion = useCallback(() => {
     return window.matchMedia("(prefers-reduced-motion: reduce)").matches;
   }, []);
 
-  const lockScroll = useCallback(() => {
-    const html = document.documentElement;
-    const body = document.body;
-    scrollLockRef.current = { html: html.style.overflow, body: body.style.overflow };
-    html.style.overflow = "hidden";
-    body.style.overflow = "hidden";
-  }, []);
-
-  const unlockScroll = useCallback(() => {
-    const prev = scrollLockRef.current;
-    if (!prev) return;
-    document.documentElement.style.overflow = prev.html;
-    document.body.style.overflow = prev.body;
-    scrollLockRef.current = null;
-  }, []);
-
   const openModal = useCallback(() => {
     if (isOpen) return;
     reducedMotionRef.current = getReducedMotion();
-    lockScroll();
     setIsOpen(true);
-  }, [isOpen, getReducedMotion, lockScroll]);
+  }, [isOpen, getReducedMotion]);
 
   const closeModal = useCallback(() => {
     if (!isOpen) return;
@@ -88,7 +72,6 @@ export default function AliadosModal() {
     const reduce = reducedMotionRef.current;
 
     const finish = () => {
-      unlockScroll();
       setSelected(null);
       setIsOpen(false);
       triggerRef.current?.focus();
@@ -126,7 +109,7 @@ export default function AliadosModal() {
         });
       },
     });
-  }, [isOpen, unlockScroll]);
+  }, [isOpen]);
 
   // Vista grande: abrir una imagen de la vitrina.
   const openLarge = useCallback((index: number) => {
@@ -272,10 +255,9 @@ export default function AliadosModal() {
     const overlay = overlayRef.current;
     const modal = modalRef.current;
     return () => {
-      unlockScroll();
       gsap.killTweensOf([overlay, modal]);
     };
-  }, [unlockScroll]);
+  }, []);
 
   return (
     <>

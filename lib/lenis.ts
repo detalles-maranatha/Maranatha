@@ -23,6 +23,21 @@ export function clearLenis(): void {
   instance = null;
 }
 
+/**
+ * Pauses Lenis while a modal locks the page. `overflow:hidden` is NOT enough:
+ * Lenis scrolls programmatically (scrollTo), which bypasses the CSS lock and
+ * keeps moving the page behind modals. Stop the instance so wheel/touch never
+ * translate into page motion. Paired with `startLenis` on unlock.
+ */
+export function stopLenis(): void {
+  instance?.stop();
+}
+
+/** Resumes Lenis after the modal unlocks the page. */
+export function startLenis(): void {
+  instance?.start();
+}
+
 /** True while a Lenis instance is registered — used by anchor handlers to
  *  decide whether to intercept the click (D5: preventDefault only when Lenis
  *  is active, so reduced-motion/no-JS keep native anchor behavior). */
