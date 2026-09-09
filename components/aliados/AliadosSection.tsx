@@ -50,7 +50,7 @@ export default function AliadosSection() {
       </div>
 
       <Watermark
-        src="/placeholders/leaf.svg"
+        src="/placeholders/gift.svg"
         className="bottom-10 left-6 md:bottom-12 md:left-10"
         opacity={0.08}
       />

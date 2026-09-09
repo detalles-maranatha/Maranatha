@@ -223,6 +223,24 @@ export default function AliadosModal() {
     setActiveIndex(closest);
   }, []);
 
+  // Teclado: flechas izq/der cuando el carrusel tiene foco.
+  const onCarouselKeyDown = useCallback(
+    (e: React.KeyboardEvent<HTMLDivElement>) => {
+      if (e.key === "ArrowLeft") {
+        e.preventDefault();
+        scrollToIndex(
+          activeIndex > 0 ? activeIndex - 1 : CAROUSEL_ITEMS.length - 1
+        );
+      } else if (e.key === "ArrowRight") {
+        e.preventDefault();
+        scrollToIndex(
+          activeIndex < CAROUSEL_ITEMS.length - 1 ? activeIndex + 1 : 0
+        );
+      }
+    },
+    [activeIndex, scrollToIndex]
+  );
+
   // Indicadores: cantidad dinámica.
   const indicators = [0, 1, 2, 3];
 
@@ -309,7 +327,11 @@ export default function AliadosModal() {
               <div
                 ref={scrollContainerRef}
                 onScroll={onScroll}
-                className="flex snap-x snap-mandatory gap-4 overflow-x-auto pb-4 scroll-smooth [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
+                onKeyDown={onCarouselKeyDown}
+                tabIndex={0}
+                role="region"
+                aria-label="Carrusel de marcas de café"
+                className="flex snap-x snap-mandatory gap-4 overflow-x-auto pb-4 scroll-smooth outline-none focus-visible:ring-2 focus-visible:ring-[var(--color-mar-gold,#D9A94E)] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
               >
                 {CAROUSEL_ITEMS.map((item, index) => (
                   <div
