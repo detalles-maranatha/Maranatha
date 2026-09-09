@@ -18,7 +18,7 @@ const CAROUSEL_ITEMS: CarouselItem[] = [
   { src: "/images/showcase/1.png", alt: "Café especial — origen", caption: "Origen" },
   { src: "/images/showcase/2.png", alt: "Café premium — proceso", caption: "Proceso" },
   { src: "/images/showcase/cofee.png", alt: "Café artesanal — taza", caption: "Artesanal" },
-  { src: "/images/showcase/coffee 2.png", alt: "Café tostado — grano", caption: "Tostado" },
+  { src: "/images/showcase/coffee-2.png", alt: "Café tostado — grano", caption: "Tostado" },
 ];
 
 /**
