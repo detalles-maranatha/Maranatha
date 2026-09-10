@@ -256,6 +256,17 @@ export default function AliadosModal() {
         closeModal();
         return;
       }
+      // Flechas izquierda/derecha navegan la vista grande (prev/next).
+      if (
+        selected !== null &&
+        (e.key === "ArrowLeft" || e.key === "ArrowRight")
+      ) {
+        e.preventDefault();
+        e.stopPropagation();
+        if (e.key === "ArrowLeft") goPrevLarge();
+        else goNextLarge();
+        return;
+      }
       if (e.key !== "Tab" || !overlay) return;
       const focusables = Array.from(
         overlay.querySelectorAll<HTMLElement>("button:not([disabled]), [href], [tabindex]:not([tabindex='-1'])")
@@ -274,7 +285,7 @@ export default function AliadosModal() {
 
     document.addEventListener("keydown", onKeyDown);
     return () => document.removeEventListener("keydown", onKeyDown);
-  }, [isOpen, selected, closeModal, exitLarge]);
+  }, [isOpen, selected, closeModal, exitLarge, goPrevLarge, goNextLarge]);
 
   // Cleanup al desmontar.
   useEffect(() => {
