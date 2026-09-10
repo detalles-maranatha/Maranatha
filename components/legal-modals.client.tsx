@@ -29,8 +29,8 @@ type LegalDoc = {
 const LEGAL_DOCS: LegalDoc[] = [
   {
     id: "threads",
-    label: "Condiciones de Threads",
-    title: "Condiciones de Threads",
+    label: "Condiciones de Maranatha",
+    title: "Condiciones de Maranatha",
     intro:
       "Estas condiciones regulan el uso de la tienda en línea y los servicios de Detalles Maranatha. Al navegar o comprar en el sitio aceptás estas condiciones en su totalidad.",
     sections: [
@@ -118,7 +118,7 @@ const LEGAL_DOCS: LegalDoc[] = [
 
 /**
  * LegalModals — pilares legales del footer.
- * Renderiza los tres botones-link (Condiciones de Threads, Política de
+ * Renderiza los tres botones-link (Condiciones de Maranatha, Política de
  * privacidad, Política de cookies) y un modal por documento seleccionado.
  * Se adapta al modo oscuro vía tokens de tema (--theme-bg / --theme-accent /
  * mar-*) y fija el scroll de la página mientras está abierto (la página NO

@@ -174,7 +174,7 @@ export default function SiteFooter() {
             </Link>
           )}
 
-          {/* Pilares legales (Condiciones de Threads / Privacidad / Cookies).
+          {/* Pilares legales (Condiciones de Maranatha / Privacidad / Cookies).
               Los textos abren en un modal con scroll interno; la página queda
               fija detrás (useScrollLock) y se adapta al modo oscuro. */}
           <LegalModals />
