@@ -323,7 +323,10 @@ export default function AliadosModal() {
             aria-label={selected === null ? undefined : "Imagen ampliada"}
             aria-labelledby={selected === null ? "aliados-modal-title" : undefined}
             aria-describedby={selected === null ? "aliados-modal-desc" : undefined}
-            className="fixed inset-0 z-[9999] flex overflow-y-auto p-3 sm:p-6 [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden"
+            // Lenis (detenido por el scroll-lock) hace preventDefault en todo
+            // wheel/touch; data-lenis-prevent lo hace salir antes sin bloquear.
+            data-lenis-prevent
+            className="fixed inset-0 z-[9999] flex overflow-y-auto overscroll-contain touch-pan-y p-3 sm:p-6 [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden"
             onClick={(e) => {
               const t = e.target as HTMLElement;
               if (t === overlayRef.current || t === backdropRef.current) closeModal();

@@ -345,7 +345,7 @@ export default function LegalModals() {
             </div>
 
             {/* Cuerpo — scroll interno, la página no se mueve */}
-            <div className="relative overflow-y-auto overscroll-contain px-6 pb-8 pt-2 md:px-8">
+            <div data-lenis-prevent className="relative overflow-y-auto overscroll-contain touch-pan-y px-6 pb-8 pt-2 md:px-8">
               <div className="flex flex-col gap-6">
                 {activeDoc.sections.map((section) => (
                   <section key={section.heading}>

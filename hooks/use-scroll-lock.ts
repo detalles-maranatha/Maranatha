@@ -11,18 +11,21 @@ import { startLenis, stopLenis } from "@/lib/lenis";
  *    `overflow:hidden`; hay que pausar el smooth-scroll (el lock de CSS solo
  *    no alcanza en este sitio).
  * 2. `overflow:hidden` en <html> y <body> — bloquea el scroll nativo.
- * 3. `overscroll-behavior: none` + `touch-action: none` en el body — evita el
- *    chaining hacia la página en desktop y touch (iOS incluido).
+ * 3. `overscroll-behavior: none` en el body — evita el chaining hacia la
+ *    página en desktop.
  *
- * El contenido del modal scrollea dentro de su propio contenedor
- * (overscroll-contain); solo la página queda fija.
+ * IMPORTANTE: aquí NO usamos `touch-action: none`, porque el modelo de
+ * touch-action es la intersección elemento+ancestros: `none` en el body mata
+ * el scroll táctil de TODOS los contenedores anidados del modal (overlay,
+ * cuerpo legal). El contenido del modal scrollea en su propio contenedor
+ * (que lleva `overscroll-contain` + `touch-pan-y` + `data-lenis-prevent`);
+ * solo la página queda fija.
  */
 export function useScrollLock(locked: boolean) {
   const savedRef = useRef<{
     htmlOverflow: string;
     bodyOverflow: string;
     bodyOverscroll: string;
-    bodyTouchAction: string;
   } | null>(null);
 
   // useLayoutEffect: el lock aplica antes del paint, sin frame de scroll libre.
@@ -36,14 +39,12 @@ export function useScrollLock(locked: boolean) {
       htmlOverflow: html.style.overflow,
       bodyOverflow: body.style.overflow,
       bodyOverscroll: body.style.overscrollBehavior,
-      bodyTouchAction: body.style.touchAction,
     };
 
     stopLenis();
     html.style.overflow = "hidden";
     body.style.overflow = "hidden";
     body.style.overscrollBehavior = "none";
-    body.style.touchAction = "none";
 
     return () => {
       const prev = savedRef.current;
@@ -51,7 +52,6 @@ export function useScrollLock(locked: boolean) {
       html.style.overflow = prev.htmlOverflow;
       body.style.overflow = prev.bodyOverflow;
       body.style.overscrollBehavior = prev.bodyOverscroll;
-      body.style.touchAction = prev.bodyTouchAction;
       savedRef.current = null;
       startLenis();
     };
