@@ -167,7 +167,7 @@ export const SHOWCASE_ITEMS: ShowcaseItem[] = [
         alt: "Detalle actualizado con rosas y chocolates",
       },
     ],
-    materials: ["Materiales del detalle actualizado 3"],
+    materials: ["Detalle floral con elementos naturales"],
     phrase: "Un detalle especial para ocasiones únicas",
   },
 ];
