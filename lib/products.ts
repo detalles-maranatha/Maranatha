@@ -369,8 +369,8 @@ export const PRODUCTS: Product[] = [
     description:
       "Canasta con café de nuestra marca propia Café Cerquera, acompañada de un detalle dulce y un mensaje personalizado. El regalo perfecto para agradecer, visitar o consentir a un amante del café.",
     images: [
-      { src: "/placeholders/gift.svg", alt: "Canasta de Café Cerquera clásica" },
-      { src: "/placeholders/ribbon.svg", alt: "Empaque de la canasta Café Cerquera" },
+      { src: "/images/showcase/detalle1.jpg", alt: "Canasta de Café Cerquera clásica con detalle floral" },
+      { src: "/images/showcase/detalleactualizado2.jpg", alt: "Detalle interior de la canasta de café" },
     ],
     occasion: ["agradecimiento", "cumpleanos"],
     available: true,
@@ -384,9 +384,10 @@ export const PRODUCTS: Product[] = [
     price: 68000,
     priceLabel: "$68.000",
     description:
-      "Versión gourmet de nuestra canasta de café: café de origen Cerquera en empaque especial, pasabocas finos y una presentación elegante. Ideal para el Día de la Madre o para regalar a alguien exigente.",
+      "Versión gourmet de nuestra canasta de café: café de origen Cerquera en empaque especial, pasabocones finos y una presentación elegante. Ideal para el Día de la Madre o para regalar a alguien exigente.",
     images: [
-      { src: "/placeholders/gift.svg", alt: "Canasta de Café Cerquera gourmet" },
+      { src: "/images/showcase/detalleactualizado2.jpg", alt: "Canasta de Café Cerquera gourmet con detalle de café de origen" },
+      { src: "/images/showcase/detalleactualizado3.jpg", alt: "Detalle del empaque gourmet y pasabocas" },
     ],
     occasion: ["dia-de-la-madre", "agradecimiento"],
     available: true,
@@ -401,7 +402,8 @@ export const PRODUCTS: Product[] = [
     description:
       "Canasta de regalo con una selección de flores, un detalle dulce y elementos sorpresa que personalizamos según la ocasión. Cuéntanos a quién va dirigida y la armamos a tu gusto.",
     images: [
-      { src: "/placeholders/gift.svg", alt: "Canasta de regalo mixta" },
+      { src: "/images/showcase/detalleactualizado3.jpg", alt: "Canasta de regalo mixta con detalles premium" },
+      { src: "/images/showcase/detalle1.jpg", alt: "Vista interior de la canasta con elementos sorpresa" },
     ],
     occasion: ["cumpleanos", "aniversarios"],
     available: true,
