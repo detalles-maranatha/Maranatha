@@ -240,7 +240,7 @@ export const PRODUCTS: Product[] = [
     description:
       "Arreglo sobrio y respetuoso en rosas de satín blancas, pensado para acompañar en momentos de condolencia. Coordinamos fecha y forma de entrega directamente por WhatsApp.",
     images: [
-      { src: "/placeholders/flower.svg", alt: "Ramo de rosas de satín blancas" },
+      { src: "/images/showcase/detalleactualizado2.jpg", alt: "Ramo de rosas de satín blancas - detalle actualizado" },
     ],
     occasion: ["condolencias"],
     available: false,
