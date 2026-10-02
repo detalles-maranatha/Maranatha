@@ -175,7 +175,7 @@ export const PRODUCTS: Product[] = [
     description:
       "El clásico de Detalles Maranatha: un ramo de rosas de listón hechas a mano, con tallo forrado en cinta satín y moño dorado. Ideal para decir “te quiero” o celebrar un aniversario. Disponible en rosa, rojo y crema, con entrega a domicilio en Bogotá.",
     images: [
-      { src: "/placeholders/flower.svg", alt: "Ramo de rosas de satín clásico" },
+      { src: "/images/showcase/detalleactualizado2.jpg", alt: "Ramo de rosas de satín clásico con detalle actualizado" },
       { src: "/placeholders/ribbon.svg", alt: "Moño dorado del ramo de satín" },
     ],
     occasion: ["san-valentin", "aniversarios", "amor-y-amistad"],
@@ -183,7 +183,7 @@ export const PRODUCTS: Product[] = [
     featured: true,
     coverage: BOGOTA_COVERAGE,
   },
-  {
+{
     slug: "ramo-rosas-satin-premium",
     name: "Ramo de rosas de satín premium",
     category: "flores-liston",
@@ -192,11 +192,12 @@ export const PRODUCTS: Product[] = [
     description:
       "Versión ampliada del ramo clásico, con rosas de satín de mayor tamaño y un acabado premium. Incluye tarjeta personalizada y empaque de regalo. Perfecto para sorprender en ocasiones especiales.",
     images: [
-      { src: "/placeholders/flower.svg", alt: "Ramo de rosas de satín premium" },
+      { src: "/images/showcase/detalleactualizado3.jpg", alt: "Ramo de rosas de satín premium con detalle actualizado" },
       { src: "/placeholders/ribbon.svg", alt: "Empaque de regalo del ramo premium" },
     ],
     occasion: ["san-valentin", "aniversarios"],
     available: true,
+    featured: true,
     coverage: BOGOTA_COVERAGE,
   },
   {
@@ -240,7 +241,8 @@ export const PRODUCTS: Product[] = [
     description:
       "Arreglo sobrio y respetuoso en rosas de satín blancas, pensado para acompañar en momentos de condolencia. Coordinamos fecha y forma de entrega directamente por WhatsApp.",
     images: [
-      { src: "/images/showcase/detalleactualizado2.jpg", alt: "Ramo de rosas de satín blancas - detalle actualizado" },
+      { src: "/placeholders/flower.svg", alt: "Ramo de rosas de satín blancas" },
+    ]," },
     ],
     occasion: ["condolencias"],
     available: false,
@@ -369,8 +371,7 @@ export const PRODUCTS: Product[] = [
     description:
       "Canasta con café de nuestra marca propia Café Cerquera, acompañada de un detalle dulce y un mensaje personalizado. El regalo perfecto para agradecer, visitar o consentir a un amante del café.",
     images: [
-      { src: "/images/showcase/detalle1.jpg", alt: "Canasta de Café Cerquera clásica con detalle floral" },
-      { src: "/images/showcase/detalleactualizado2.jpg", alt: "Detalle interior de la canasta de café" },
+      { src: "/images/showcase/Max_a_a_esta_imagen_dejale.jpeg", alt: "Canasta de Café Cerquera clásica" },
     ],
     occasion: ["agradecimiento", "cumpleanos"],
     available: true,
@@ -386,14 +387,13 @@ export const PRODUCTS: Product[] = [
     description:
       "Versión gourmet de nuestra canasta de café: café de origen Cerquera en empaque especial, pasabocones finos y una presentación elegante. Ideal para el Día de la Madre o para regalar a alguien exigente.",
     images: [
-      { src: "/images/showcase/detalleactualizado2.jpg", alt: "Canasta de Café Cerquera gourmet con detalle de café de origen" },
-      { src: "/images/showcase/detalleactualizado3.jpg", alt: "Detalle del empaque gourmet y pasabocas" },
+      { src: "/placeholders/gift.svg", alt: "Canasta de Café Cerquera gourmet" },
     ],
     occasion: ["dia-de-la-madre", "agradecimiento"],
     available: true,
     coverage: [...BOGOTA_COVERAGE, "bogota-soacha"],
   },
-  {
+{
     slug: "canasta-regalo-mixta",
     name: "Canasta de regalo mixta",
     category: "canastas-detalles",
@@ -402,8 +402,7 @@ export const PRODUCTS: Product[] = [
     description:
       "Canasta de regalo con una selección de flores, un detalle dulce y elementos sorpresa que personalizamos según la ocasión. Cuéntanos a quién va dirigida y la armamos a tu gusto.",
     images: [
-      { src: "/images/showcase/detalleactualizado3.jpg", alt: "Canasta de regalo mixta con detalles premium" },
-      { src: "/images/showcase/detalle1.jpg", alt: "Vista interior de la canasta con elementos sorpresa" },
+      { src: "/placeholders/gift.svg", alt: "Canasta de regalo mixta" },
     ],
     occasion: ["cumpleanos", "aniversarios"],
     available: true,
