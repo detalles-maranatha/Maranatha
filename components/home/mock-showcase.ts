@@ -160,15 +160,21 @@ export const SHOWCASE_ITEMS: ShowcaseItem[] = [
   },
   {
     id: "flores",
-    title: "Flores",
+    title: "RAMO ETERNO DE ROSAS",
     images: [
       {
         src: "/images/showcase/detalleactualizado3.jpg",
-        alt: "Detalle actualizado con rosas y chocolates",
+        alt: "Rosas eternas con detalles premium",
       },
     ],
-    materials: ["Detalle floral con elementos naturales"],
-    phrase: "Un detalle especial para ocasiones únicas",
+    materials: [
+      "Rosas de seda de larga duración",
+      "Bombones Ferrero Rocher",
+      "Mariposas doradas decorativas",
+      "Envoltorio de lujo en papel negro",
+      "Lazo de raso burdeos",
+    ],
+    phrase: "Un regalo que combina elegancia y dulzura",
   },
 ];
 
