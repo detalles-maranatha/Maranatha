@@ -27,7 +27,7 @@ const VITRINE_ITEMS: VitrineItem[] = [
   { src: "/images/showcase/1.jpg", alt: "Café especial — origen", caption: "Origen" },
   { src: "/images/showcase/2.jpg", alt: "Café premium — proceso", caption: "Proceso" },
   { src: "/images/showcase/cofee.jpg", alt: "Café artesanal — taza", caption: "Artesanal" },
-  { src: "/images/showcase/coffee-2.jpg", alt: "Café tostado — grano", caption: "Tostado" },
+  { src: "", alt: "Café tostado — grano", caption: "Tostado" },
 ];
 
 const BENEFITS = [
