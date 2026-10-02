@@ -159,8 +159,8 @@ export const SHOWCASE_ITEMS: ShowcaseItem[] = [
     phrase: "Magia y ternura en un solo regalo",
   },
   {
-    id: "detalleactualizado3",
-    title: "Detalle actualizado 3",
+    id: "flores",
+    title: "Flores",
     images: [
       {
         src: "/images/showcase/detalleactualizado3.jpg",
