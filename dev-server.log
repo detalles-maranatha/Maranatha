@@ -1,0 +1,111 @@
+
+> maranatha-web@0.1.0 dev
+> next dev
+
+▲ Next.js 16.3.0 (Turbopack)
+- Local:         http://localhost:3000
+- Network:       http://192.168.137.1:3000
+✓ Ready in 1048ms
+✓ Running next.config.ts took 78ms
+
+Image with src "/maranatha.jpeg" has a "loader" property that does not implement width. Please implement it or use the "unoptimized" property instead.
+Read more: https://nextjs.org/docs/messages/next-image-missing-loader-width
+Image with src "/placeholders/flower.svg" has a "loader" property that does not implement width. Please implement it or use the "unoptimized" property instead.
+Read more: https://nextjs.org/docs/messages/next-image-missing-loader-width
+Image with src "/placeholders/ribbon.svg" has a "loader" property that does not implement width. Please implement it or use the "unoptimized" property instead.
+Read more: https://nextjs.org/docs/messages/next-image-missing-loader-width
+Image with src "/placeholders/gift.svg" has a "loader" property that does not implement width. Please implement it or use the "unoptimized" property instead.
+Read more: https://nextjs.org/docs/messages/next-image-missing-loader-width
+ GET / 200 in 1152ms (next.js: 741ms, application-code: 412ms)
+[browser] Image with src "/maranatha.jpeg" has a "loader" property that does not implement width. Please implement it or use the "unoptimized" property instead.
+Read more: https://nextjs.org/docs/messages/next-image-missing-loader-width
+[browser] Image with src "/placeholders/flower.svg" has a "loader" property that does not implement width. Please implement it or use the "unoptimized" property instead.
+Read more: https://nextjs.org/docs/messages/next-image-missing-loader-width
+[browser] Image with src "/placeholders/ribbon.svg" has a "loader" property that does not implement width. Please implement it or use the "unoptimized" property instead.
+Read more: https://nextjs.org/docs/messages/next-image-missing-loader-width
+[browser] Image with src "/placeholders/gift.svg" has a "loader" property that does not implement width. Please implement it or use the "unoptimized" property instead.
+Read more: https://nextjs.org/docs/messages/next-image-missing-loader-width
+[browser] GSAP target [object NodeList] not found. https://gsap.com (components/split-text.tsx:52:12)
+[browser] GSAP target [object NodeList] not found. https://gsap.com (components/split-text.tsx:55:12)
+[browser] GSAP target [object NodeList] not found. https://gsap.com (components/split-text.tsx:52:12)
+[browser] GSAP target [object NodeList] not found. https://gsap.com (components/split-text.tsx:55:12)
+[browser] GSAP target [object NodeList] not found. https://gsap.com (components/split-text.tsx:52:12)
+[browser] GSAP target [object NodeList] not found. https://gsap.com (components/split-text.tsx:55:12)
+[browser] GSAP target [object NodeList] not found. https://gsap.com (components/split-text.tsx:52:12)
+[browser] GSAP target [object NodeList] not found. https://gsap.com (components/split-text.tsx:55:12)
+ GET / 200 in 159ms (next.js: 38ms, application-code: 121ms)
+ GET / 200 in 135ms (next.js: 18ms, application-code: 117ms)
+[browser] Image with src "/maranatha.jpeg" has a "loader" property that does not implement width. Please implement it or use the "unoptimized" property instead.
+Read more: https://nextjs.org/docs/messages/next-image-missing-loader-width
+[browser] Image with src "/placeholders/flower.svg" has a "loader" property that does not implement width. Please implement it or use the "unoptimized" property instead.
+Read more: https://nextjs.org/docs/messages/next-image-missing-loader-width
+[browser] Image with src "/placeholders/ribbon.svg" has a "loader" property that does not implement width. Please implement it or use the "unoptimized" property instead.
+Read more: https://nextjs.org/docs/messages/next-image-missing-loader-width
+[browser] Image with src "/placeholders/gift.svg" has a "loader" property that does not implement width. Please implement it or use the "unoptimized" property instead.
+Read more: https://nextjs.org/docs/messages/next-image-missing-loader-width
+[browser] GSAP target [object NodeList] not found. https://gsap.com (components/split-text.tsx:52:12)
+[browser] GSAP target [object NodeList] not found. https://gsap.com (components/split-text.tsx:55:12)
+[browser] GSAP target [object NodeList] not found. https://gsap.com (components/split-text.tsx:52:12)
+[browser] GSAP target [object NodeList] not found. https://gsap.com (components/split-text.tsx:55:12)
+[browser] GSAP target [object NodeList] not found. https://gsap.com (components/split-text.tsx:52:12)
+[browser] GSAP target [object NodeList] not found. https://gsap.com (components/split-text.tsx:55:12)
+[browser] GSAP target [object NodeList] not found. https://gsap.com (components/split-text.tsx:52:12)
+[browser] GSAP target [object NodeList] not found. https://gsap.com (components/split-text.tsx:55:12)
+Image with src "/placeholders/Oso-Photoroom.png" has a "loader" property that does not implement width. Please implement it or use the "unoptimized" property instead.
+Read more: https://nextjs.org/docs/messages/next-image-missing-loader-width
+ GET /taller/ 200 in 253ms (next.js: 88ms, application-code: 164ms)
+[browser] Image with src "/placeholders/flower.svg" has a "loader" property that does not implement width. Please implement it or use the "unoptimized" property instead.
+Read more: https://nextjs.org/docs/messages/next-image-missing-loader-width
+[browser] Image with src "/placeholders/ribbon.svg" has a "loader" property that does not implement width. Please implement it or use the "unoptimized" property instead.
+Read more: https://nextjs.org/docs/messages/next-image-missing-loader-width
+[browser] Image with src "/placeholders/Oso-Photoroom.png" has a "loader" property that does not implement width. Please implement it or use the "unoptimized" property instead.
+Read more: https://nextjs.org/docs/messages/next-image-missing-loader-width
+[browser] Image with src "/placeholders/gift.svg" has a "loader" property that does not implement width. Please implement it or use the "unoptimized" property instead.
+Read more: https://nextjs.org/docs/messages/next-image-missing-loader-width
+✓ Compiled in 267ms
+ GET /taller/ 200 in 175ms (next.js: 21ms, application-code: 154ms)
+ GET /taller/ 200 in 122ms (next.js: 24ms, application-code: 98ms)
+ GET /taller/ 200 in 92ms (next.js: 23ms, application-code: 70ms)
+ GET / 200 in 121ms (next.js: 22ms, application-code: 99ms)
+[browser] Image with src "/maranatha.jpeg" has a "loader" property that does not implement width. Please implement it or use the "unoptimized" property instead.
+Read more: https://nextjs.org/docs/messages/next-image-missing-loader-width
+[browser] Image with src "/placeholders/flower.svg" has a "loader" property that does not implement width. Please implement it or use the "unoptimized" property instead.
+Read more: https://nextjs.org/docs/messages/next-image-missing-loader-width
+[browser] Image with src "/placeholders/ribbon.svg" has a "loader" property that does not implement width. Please implement it or use the "unoptimized" property instead.
+Read more: https://nextjs.org/docs/messages/next-image-missing-loader-width
+[browser] Image with src "/placeholders/gift.svg" has a "loader" property that does not implement width. Please implement it or use the "unoptimized" property instead.
+Read more: https://nextjs.org/docs/messages/next-image-missing-loader-width
+[browser] GSAP target [object NodeList] not found. https://gsap.com (components/split-text.tsx:52:12)
+[browser] GSAP target [object NodeList] not found. https://gsap.com (components/split-text.tsx:55:12)
+[browser] GSAP target [object NodeList] not found. https://gsap.com (components/split-text.tsx:52:12)
+[browser] GSAP target [object NodeList] not found. https://gsap.com (components/split-text.tsx:55:12)
+[browser] GSAP target [object NodeList] not found. https://gsap.com (components/split-text.tsx:52:12)
+[browser] GSAP target [object NodeList] not found. https://gsap.com (components/split-text.tsx:55:12)
+[browser] GSAP target [object NodeList] not found. https://gsap.com (components/split-text.tsx:52:12)
+[browser] GSAP target [object NodeList] not found. https://gsap.com (components/split-text.tsx:55:12)
+ GET /taller/ 200 in 141ms (next.js: 15ms, application-code: 126ms)
+[browser] Image with src "/placeholders/flower.svg" has a "loader" property that does not implement width. Please implement it or use the "unoptimized" property instead.
+Read more: https://nextjs.org/docs/messages/next-image-missing-loader-width
+[browser] Image with src "/placeholders/ribbon.svg" has a "loader" property that does not implement width. Please implement it or use the "unoptimized" property instead.
+Read more: https://nextjs.org/docs/messages/next-image-missing-loader-width
+[browser] Image with src "/placeholders/Oso-Photoroom.png" has a "loader" property that does not implement width. Please implement it or use the "unoptimized" property instead.
+Read more: https://nextjs.org/docs/messages/next-image-missing-loader-width
+[browser] Image with src "/placeholders/gift.svg" has a "loader" property that does not implement width. Please implement it or use the "unoptimized" property instead.
+Read more: https://nextjs.org/docs/messages/next-image-missing-loader-width
+ GET / 200 in 191ms (next.js: 46ms, application-code: 145ms)
+[browser] Image with src "/maranatha.jpeg" has a "loader" property that does not implement width. Please implement it or use the "unoptimized" property instead.
+Read more: https://nextjs.org/docs/messages/next-image-missing-loader-width
+[browser] Image with src "/placeholders/flower.svg" has a "loader" property that does not implement width. Please implement it or use the "unoptimized" property instead.
+Read more: https://nextjs.org/docs/messages/next-image-missing-loader-width
+[browser] Image with src "/placeholders/ribbon.svg" has a "loader" property that does not implement width. Please implement it or use the "unoptimized" property instead.
+Read more: https://nextjs.org/docs/messages/next-image-missing-loader-width
+[browser] Image with src "/placeholders/gift.svg" has a "loader" property that does not implement width. Please implement it or use the "unoptimized" property instead.
+Read more: https://nextjs.org/docs/messages/next-image-missing-loader-width
+[browser] GSAP target [object NodeList] not found. https://gsap.com (components/split-text.tsx:52:12)
+[browser] GSAP target [object NodeList] not found. https://gsap.com (components/split-text.tsx:55:12)
+[browser] GSAP target [object NodeList] not found. https://gsap.com (components/split-text.tsx:52:12)
+[browser] GSAP target [object NodeList] not found. https://gsap.com (components/split-text.tsx:55:12)
+[browser] GSAP target [object NodeList] not found. https://gsap.com (components/split-text.tsx:52:12)
+[browser] GSAP target [object NodeList] not found. https://gsap.com (components/split-text.tsx:55:12)
+[browser] GSAP target [object NodeList] not found. https://gsap.com (components/split-text.tsx:52:12)
+[browser] GSAP target [object NodeList] not found. https://gsap.com (components/split-text.tsx:55:12)
