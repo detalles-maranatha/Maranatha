@@ -158,6 +158,18 @@ export const SHOWCASE_ITEMS: ShowcaseItem[] = [
     ],
     phrase: "Magia y ternura en un solo regalo",
   },
+  {
+    id: "detalleactualizado3",
+    title: "Detalle actualizado 3",
+    images: [
+      {
+        src: "/images/showcase/detalleactualizado3.jpg",
+        alt: "Detalle actualizado con rosas y chocolates",
+      },
+    ],
+    materials: ["Materiales del detalle actualizado 3"],
+    phrase: "Un detalle especial para ocasiones únicas",
+  },
 ];
 
 /** CTA card ("Sorprende con amor") content — no dedicated photo. */
