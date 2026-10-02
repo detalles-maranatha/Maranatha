@@ -243,7 +243,6 @@ export const PRODUCTS: Product[] = [
     images: [
       { src: "/placeholders/flower.svg", alt: "Ramo de rosas de satín blancas" },
     ],
-    ],
     occasion: ["condolencias"],
     available: false,
     unavailableNote:
